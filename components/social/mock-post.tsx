@@ -14,7 +14,7 @@ interface MockProps {
         author: {
             name: string,
             username: string,
-            avater: string,
+            avatar?: string,
             verified?: boolean
         }
         content: string
@@ -24,7 +24,7 @@ interface MockProps {
         reposts: number
         timestamp: string
         isLiked?: boolean
-        isBookedmared?: boolean
+        isBookmarked?: boolean
     }
 }
 
@@ -43,7 +43,7 @@ export default function MockPosts({ post }: MockProps) {
         const userID = JSON.parse(storedUser);
 
         setAuthorID(userID.id);
-    })
+    }, [])
 
     const handleEdits = async() => {
         try {
@@ -57,7 +57,7 @@ export default function MockPosts({ post }: MockProps) {
 
             if (data.ok) {
                 setIsEditing(false);
-                window.location.reload(); 
+                window.location.reload();
             } else {
                 const res = await data.json();
                 console.error("Failed to update:", res);

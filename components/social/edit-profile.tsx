@@ -26,19 +26,6 @@ export default function EditProfilePage() {
     const [editingPostId, setEditingPostId] = useState<string | null>(null);
     const [editContent, setEditContent] = useState("");
 
-    const [mockPosts, setMockPosts] = useState([
-        {
-            id: "1",
-            content: "Just setting up my Nexus profile! Excited to connect with everyone here. 🚀",
-            createdAt: "2 hours ago"
-        },
-        {
-            id: "2",
-            content: "Working on some exciting new features for the platform. Can't wait to share them with you all! 💻✨",
-            createdAt: "1 day ago"
-        }
-    ]);
-
     const avatarInputRef = useRef<HTMLInputElement>(null);
     const bannerInputRef = useRef<HTMLInputElement>(null);
 
@@ -357,16 +344,17 @@ export default function EditProfilePage() {
 
                 <h2 className="text-xl font-bold tracking-tight mb-6 flex items-center gap-2">
                     Manage Posts
-                    <span className="text-sm font-normal text-muted-foreground bg-secondary/50 px-2 py-0.5 rounded-full">{mockPosts.length}</span>
+                    <span className="text-sm font-normal text-muted-foreground bg-secondary/50 px-2 py-0.5 rounded-full">{user?.posts?.length || 0}</span>
                 </h2>
 
                 <div className="">
-                    {user.posts && user.posts.length > 0 ? (
+                    {user?.posts && user.posts.length > 0 ? (
                         user.posts.map((userData) => (
                             <MockPosts
                                 key={userData.id}
                                 post={{
                                     ...userData,
+                                    timestamp: userData.createdAt,
                                     author: {
                                         name: user.name,
                                         avatar: user.avatar,

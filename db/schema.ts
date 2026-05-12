@@ -26,7 +26,7 @@ export const posts = pgTable("posts", {
 export const comments = pgTable("comments", {
     id: serial("id").primaryKey(),
     userId: integer("userId").references(() => users.id).notNull(),
-    postId: integer("postId").references(() => posts.id).notNull(),
+    postId: integer("postId").references(() => posts.id, { onDelete: "cascade"}).notNull(),
     content: text("content").notNull(),
     created_at: timestamp("created_at").defaultNow(),
 })
@@ -37,7 +37,7 @@ export const likes = pgTable("likes", {
         .notNull(),
 
     postID: integer("postID")
-        .references(() => posts.id)
+        .references(() => posts.id, { onDelete: "cascade"})
         .notNull()
 })
 
@@ -47,7 +47,7 @@ export const reposts = pgTable("reposts", {
         .notNull(),
 
     postID: integer("postID")
-        .references(() => posts.id)
+        .references(() => posts.id, { onDelete: "cascade"})
         .notNull(),
 })
 
@@ -57,7 +57,7 @@ export const bookmark = pgTable("bookmark", {
         .notNull(),
 
     postID: integer("postID")
-        .references(() => posts.id)
+        .references(() => posts.id, { onDelete: "cascade"})
         .notNull()
 })
 

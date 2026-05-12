@@ -165,6 +165,7 @@ export function PostCard({ post }: PostProps) {
         })
 
         const newComment = await res.json();
+        console.log(newComment.userId);
 
         setComment((prev) => [newComment, ...prev])
         setCommentContent("")
@@ -320,6 +321,7 @@ export function PostCard({ post }: PostProps) {
                             <div className="mt-4 space-y-3">
                                 {comment.map((comm) => (
                                     <div key={comm.id} className="border p-3 rounded">
+                                        <p>{comm.userId}</p>
                                         <p className="text-sm">{comm.content}</p>
                                     </div>
                                 ))}

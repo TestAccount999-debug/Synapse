@@ -38,13 +38,20 @@ export async function PUT(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-    const body = await req.json();
 
-    const { id } = body;
+    try {
+        const body = await req.json();
 
-    await db.delete(posts).where(eq(posts.id, Number(id)));
-    
-    revalidatePath("/", "layout");
+        const { id } = body;
 
-    return NextResponse.json({message: "Post Deleted"}, {status: 200});
+        await db.delete(posts).where(eq(posts.id, Number(id)));
+
+        revalidatePath("/", "layout");
+
+        return NextResponse.json({ message: "Post Deleted" }, { status: 200 });
+
+    } catch (err) {
+        return NextResponse.json({ error: err }, {status: 500});
+    }
+
 }
