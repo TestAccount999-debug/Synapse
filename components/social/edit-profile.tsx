@@ -165,11 +165,12 @@ export default function EditProfilePage() {
             }
 
             const updateRes = await fetch(`/api/profile/${currentUserId}`, {
-                method: "PATCH",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
+                    id: userId,
                     name,
                     bio,
                     location,

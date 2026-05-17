@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { likes, users, posts, comments } from "@/db/schema"
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { useId } from "react";
 
@@ -98,4 +99,27 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     }
         
     return NextResponse.json(data)
+}
+
+export async function PUT(req: Request) {
+    const body = await req.json();
+
+    const { id, name, bio, location, website, avatar, banner } = body;
+    
+    try {
+        await db.update(users).set({
+            name: name,
+            bio: bio,
+            location: location,
+            website: website,
+            avatar: avatar,
+            banner: banner
+        }).where(eq(users.id, Number(id)))
+    
+        revalidatePath("/", "layout")
+        return NextResponse.json({ message: "Profile Updated"}, { status: 200})
+    } catch (err) {
+        return NextResponse.json({ error: err}, { status: 500})
+    }
+
 }
