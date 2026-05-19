@@ -19,7 +19,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 
-const navItems = [
+const navItems: { icon: any; label: string; href: string; badge?: number }[] = [
     { icon: Home, label: "Home", href: "/feed" },
     // { icon: Search, label: "Explore", href: "/explore" },
     // { icon: Bell, label: "Notifications", href: "/notifications", badge: 3 },
@@ -64,9 +64,7 @@ export function Sidebar() {
                 {navItems.map((item) => {
                     const isActive = pathname === item.href
                     // Dynamic profile link
-                    const href = item.label === "Profile" && user?.id
-                        ? `/profile/${user.id}`
-                        : item.href
+                    const href = item.href
 
                     return (
                         <Link

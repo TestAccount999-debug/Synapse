@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
 import { ArrowLeft, Camera, User, X, Loader2, Pencil, Trash2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -34,73 +33,23 @@ export default function EditProfilePage() {
     const [currentId, setCurrentid] = useState<any>(null);
 
     const Router = useRouter();
-    const params = useParams();
-    const userId = params.id;
-
-    useEffect(() => {
-        const fetchMe = async () => {
-            try {
-                const res = await fetch("/api/user/me");
-                if (res.ok) {
-                    const data = await res.json();
-                    console.log(data)
-                    setCurrentid(data.id);
-                }
-            } catch (err) {
-                console.error(err);
-            }
-        }
-        fetchMe();
-    }, []);
-
-    useEffect(() => {
-        if (currentId && userId && Number(currentId) !== Number(userId)) {
-            Router.push("/edit-profile/" + currentId);
-        }
-    }, [currentId, userId, Router]);
-
-    useEffect(() => {
-        if (userId) {
-            fetch(`/api/edit-profile/${userId}`)
-                .then(res => res.json())
-                .then(data => setUser(data))
-                .catch(err => console.error("Fetch error:", err));
-        }
-    }, [userId]);
 
     useEffect(() => {
         const initialize = async () => {
             try {
-                const meRes = await fetch("/api/user/me");
-
-                if (!meRes.ok) {
-                    setIsFetching(false);
-                    return;
-                }
-
-                const meData = await meRes.ok ? await meRes.json() : null;
-
-                if (!meData.id || !meData) {
-                    setIsFetching(false);
-                    return;
-                }
-
-                setCurrentUserId(meData.id)
-
-                const profileRes = await fetch(`/api/edit-profile/${userId}`);
+                const profileRes = await fetch(`/api/edit-profile`);
                 if (profileRes.ok) {
                     const data = await profileRes.json();
+                    setUser(data);
+                    setCurrentUserId(data.id);
                     setName(data.name || "");
                     setBio(data.bio || "");
                     setLocation(data.location || "");
                     setWebsite(data.website || "");
                     setAvatarPreview(data.avatar || null);
                     setBannerPreview(data.banner || null);
-                    setCurrentUserId(meData.id);
                 }
-            }
-
-            catch (err) {
+            } catch (err) {
                 console.error(err);
             } finally {
                 setIsFetching(false);
@@ -164,13 +113,12 @@ export default function EditProfilePage() {
                 }
             }
 
-            const updateRes = await fetch(`/api/profile/${currentUserId}`, {
+            const updateRes = await fetch(`/api/profile`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: userId,
                     name,
                     bio,
                     location,
@@ -188,7 +136,7 @@ export default function EditProfilePage() {
                     localStorage.setItem("user", JSON.stringify(updatedUser));
                 }
 
-                Router.push(`/profile/${currentUserId}`);
+                Router.push(`/profile`);
                 Router.refresh();
             } else {
                 const error = await updateRes.json();
@@ -350,7 +298,7 @@ export default function EditProfilePage() {
 
                 <div className="">
                     {user?.posts && user.posts.length > 0 ? (
-                        user.posts.map((userData) => (
+                        user.posts.map((userData: any) => (
                             <MockPosts
                                 key={userData.id}
                                 post={{

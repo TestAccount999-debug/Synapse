@@ -25,9 +25,13 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const postId = searchParams.get("postId");
 
+    if (!postId) {
+        return NextResponse.json({ error: "postId is required" }, { status: 400 });
+    }
+
     try {
         const data = await db.query.comments.findMany({
-            where: (comments, { eq }) => eq(comments.postId, postId),
+            where: (comments, { eq }) => eq(comments.postId, Number(postId)),
             with: {
                 user: true
             }

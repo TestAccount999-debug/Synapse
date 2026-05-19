@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { User, MapPin, Calendar, Link as LinkIcon, Edit2, Camera, MoreHorizontal, CheckCircle, UsersIcon, TableColumnsSplit } from "lucide-react";
 import { PostCard } from "./post-card";
-import { useParams } from "next/navigation";
 
 
 export default function ProfilePage() {
@@ -11,48 +10,20 @@ export default function ProfilePage() {
   const [tabContent, setTabContent] = useState<any>(null);
 
   const [user, setUser] = useState<any>(null);
-  const [currentUserId, setCurrentUserid] = useState<any>(null);
 
   const router = useRouter();
-  const params = useParams();
-  const userId = params.id;
 
   useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const res = await fetch("/api/user/me");
-        if (res.ok) {
-          const data = await res.json();
-          setCurrentUserid(data.id);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    fetchMe();
+    fetch(`/api/profile`)
+      .then(res => res.json())
+      .then(data => setUser(data))
+      .catch(err => console.error("Fetch error:", err));
   }, []);
 
   useEffect(() => {
-    if (currentUserId && userId && Number(currentUserId) !== Number(userId)) {
-      router.push("/profile/" + currentUserId);
-    }
-  }, [currentUserId, userId, router]);
-
-  useEffect(() => {
-    if (userId) {
-      fetch(`/api/profile/${userId}`)
-        .then(res => res.json())
-        .then(data => setUser(data))
-        .catch(err => console.error("Fetch error:", err));
-    }
-  }, [userId]);
-
-  useEffect(() => {
-    if (userId) {
-      fetch(`/api/profile/${userId}?tab=${activeTab}`)
-        .then(res => res.json())
-        .then(data => setTabContent(data))
-    }
+    fetch(`/api/profile?tab=${activeTab}`)
+      .then(res => res.json())
+      .then(data => setTabContent(data))
 
     console.log()
   }, [activeTab])
@@ -67,7 +38,7 @@ export default function ProfilePage() {
   }
 
   const editPageNavigate = () => {
-    router.push(`/edit-profile/` + user.id);
+    router.push(`/edit-profile`);
   }
 
   return (

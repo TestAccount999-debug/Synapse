@@ -3,13 +3,27 @@ import { likes, users, posts, comments } from "@/db/schema"
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
-import { useId } from "react";
+import { cookies } from "next/headers";
+import { verifyToken } from "@/lib/auth";
 
-export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const tabParams = searchParams.get("tab");
-    const { id } = await params;
-    const userID = Number(id);
+    
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    if (!token) {
+        return NextResponse.json({ error: "No Token Found" }, {status: 401});
+    }
+
+    const decoded = verifyToken(token);
+
+    if(!decoded || !decoded.userId) {
+        return NextResponse.json({error: "Invalid token"}, {status: 401});
+    }
+
+    const userID = Number(decoded.userId);
 
     const validTabs = ["posts", "likes", "comments", "bookmarks", "reposts"] as const;
     const tabs = validTabs.includes(tabParams as any) ? tabParams : "posts"
@@ -104,7 +118,22 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 export async function PUT(req: Request) {
     const body = await req.json();
 
-    const { id, name, bio, location, website, avatar, banner } = body;
+    const { name, bio, location, website, avatar, banner } = body;
+    
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    if (!token) {
+        return NextResponse.json({ error: "No Token Found" }, {status: 401});
+    }
+
+    const decoded = verifyToken(token);
+
+    if(!decoded || !decoded.userId) {
+        return NextResponse.json({error: "Invalid token"}, {status: 401});
+    }
+
+    const userID = Number(decoded.userId);
     
     try {
         await db.update(users).set({
@@ -114,7 +143,7 @@ export async function PUT(req: Request) {
             website: website,
             avatar: avatar,
             banner: banner
-        }).where(eq(users.id, Number(id)))
+        }).where(eq(users.id, userID))
     
         revalidatePath("/", "layout")
         return NextResponse.json({ message: "Profile Updated"}, { status: 200})
