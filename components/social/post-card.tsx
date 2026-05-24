@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils"
 import { like } from "drizzle-orm"
 import { bookmark, posts } from "@/db/schema"
 import CommentBox from "./comment-box"
+import { useRouter } from "next/navigation"
 
 interface PostProps {
     post: {
@@ -64,6 +65,7 @@ export function PostCard({ post, isProfileView }: PostProps) {
     const [likeRes, setLikeRes] = useState<Boolean>();
 
     const maxLength = 200;
+    const router = useRouter();
 
     const handleLikes = async () => {
         if (!userId) return
@@ -324,7 +326,7 @@ export function PostCard({ post, isProfileView }: PostProps) {
                         showComment && (
                             <div className="mt-4 space-y-3">
                                 {comment.map((comm) => (
-                                    <CommentBox 
+                                    <CommentBox
                                         key={comm.id}
                                         comment={{
                                             ...comm
@@ -353,8 +355,8 @@ export function PostCard({ post, isProfileView }: PostProps) {
                             >Post</Button>
                         </div>
                     )}
+                </div>
             </div>
-        </div>
         </Card >
     );
 }
