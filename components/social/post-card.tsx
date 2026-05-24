@@ -178,6 +178,12 @@ export function PostCard({ post, isProfileView }: PostProps) {
         console.log(comment);
     }
 
+    const handleProfileClick = () => {
+        if (post.author.name) {
+             router.push(`/profile/${encodeURIComponent(post.author.name)}`)
+        }
+    }
+
     useEffect(() => {
         fetch(`/api/comments?postId=${post.id}`)
             .then(res => res.json())
@@ -226,7 +232,10 @@ export function PostCard({ post, isProfileView }: PostProps) {
                     {/* Header */}
                     <div className="flex items-center justify-between gap-1 mb-0.5">
                         <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
-                            <span className="font-bold text-[15px] text-foreground hover:underline cursor-pointer truncate">
+                            <span 
+                                className="font-bold text-[15px] text-foreground hover:underline cursor-pointer truncate"
+                                onClick={handleProfileClick}
+                                >
                                 {post.author.name}
                             </span>
                             {post.author.verified && (

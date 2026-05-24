@@ -9,6 +9,7 @@ import { verifyToken } from "@/lib/auth";
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const tabParams = searchParams.get("tab");
+  const usernameParams = searchParams.get("username");
 
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
@@ -23,7 +24,20 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 
-  const userID = Number(decoded.userId);
+  let userID = Number(decoded.userId);
+
+ if (usernameParams) {
+  const targetUser = await db.query.users.findFirst({
+    where: (users, { eq }) => eq(users.name, usernameParams)
+  })
+
+  if(!targetUser) {
+    return NextResponse.json({ error: "User not found"}, { status: 404})
+  }
+
+  userID = targetUser.id;
+
+ };
 
   const validTabs = [
     "posts",

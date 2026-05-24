@@ -14,53 +14,84 @@ import {
 } from "lucide-react";
 import { PostCard } from "./post-card";
 
-export default function ProfilePage() {
+export default function ProfilePage({ username }: { username?: string }) {
   const [activeTab, setActiveTab] = useState<
     "posts" | "comments" | "reposts" | "bookmarks" | "likes"
   >("posts");
   const [tabContent, setTabContent] = useState<any>(null);
 
   const [user, setUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<any>(null);
 
   const router = useRouter();
 
+  // useEffect(() => {
+  //   fetch(`/api/profile`)
+  //     .then((res) => res.json())
+  //     .then((data) => setUser(data))
+  //     .catch((err) => console.error("Fetch error:", err));
+  // }, []);
+
+  // useEffect(() => {
+  //   fetch(`/api/profile?tab=${activeTab}`)
+  //     .then((res) => res.json())
+  //     .then((data) => setTabContent(data));
+
+  //   console.log();
+  // }, [activeTab]);
+
+  // if (!user) {
+  //   return (
+  //     <div className="min-h-screen bg-background flex items-center justify-center">
+  //       <div className="text-primary animate-pulse font-medium italic">
+  //         Loading Profile...
+  //       </div>
+  //     </div>
+  //   );
+  // }
+
+  // const editPageNavigate = () => {
+  //   router.push(`/edit-profile`);
+  // };
+
   useEffect(() => {
-    fetch(`/api/profile`)
+    fetch("/api/user/me")
+      .then((res) => res.json())
+      .then((data) => setCurrentUser(data))
+      .catch((err) => console.error(err))
+  }, [])
+
+  useEffect(() => {
+    const url = username ? `/api/profile?username=${encodeURIComponent(username)}` : `/api/profile`;
+
+    fetch(url)
       .then((res) => res.json())
       .then((data) => setUser(data))
-      .catch((err) => console.error("Fetch error:", err));
-  }, []);
+      .catch((err) => console.error(err))
+  }, [username]);
 
   useEffect(() => {
-    fetch(`/api/profile?tab=${activeTab}`)
+    const url = username ? `/api/profile?tab=${activeTab}&username=${encodeURIComponent(username)}` : `/api/profile?tab=${activeTab}`;
+
+    fetch(url)
       .then((res) => res.json())
-      .then((data) => setTabContent(data));
+      .then((data) => setTabContent(data))
+  }, [activeTab, username])
 
-    console.log();
-  }, [activeTab]);
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-primary animate-pulse font-medium italic">
-          Loading Profile...
-        </div>
-      </div>
-    );
-  }
-
-  const editPageNavigate = () => {
-    router.push(`/edit-profile`);
-  };
+  const isOwnProfile = !username || (currentUser && currentUser.name === username);
 
   return (
     <div className="min-h-screen bg-background text-foreground border-x border-border">
       {/* Cover / Banner */}
       <div className="relative h-48 md:h-64 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent border-b border-border">
-        <button className="absolute right-4 bottom-4 flex items-center gap-2 rounded-lg bg-black/50 px-3 py-1.5 text-sm text-primary border border-primary/20 transition hover:bg-black/70 backdrop-blur-sm">
-          <Camera className="h-4 w-4" />
-          Edit cover
-        </button>
+        {
+          isOwnProfile && (
+            <button className="absolute right-4 bottom-4 flex items-center gap-2 rounded-lg bg-black/50 px-3 py-1.5 text-sm text-primary border border-primary/20 transition hover:bg-black/70 backdrop-blur-sm">
+              <Camera className="h-4 w-4" />
+              Edit cover
+            </button>
+          )
+        }
       </div>
 
       {/* Profile header */}
@@ -77,13 +108,18 @@ export default function ProfilePage() {
               <User className="h-16 w-16 text-muted-foreground" />
             )}
           </div>
-          <button
-            className="mb-2 flex items-center gap-2 rounded-full border border-primary px-5 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
-            onClick={editPageNavigate}
-          >
-            <Edit2 className="h-4 w-4" />
-            Edit Profile
-          </button>
+          {
+            isOwnProfile && (
+              <button
+                className="mb-2 flex items-center gap-2 rounded-full border border-primary px-5 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+                onClick={editPageNavigate}
+              >
+                <Edit2 className="h-4 w-4" />
+                Edit Profile
+              </button>
+
+            )
+          }
         </div>
 
         <div className="mt-4 space-y-3">
@@ -288,9 +324,8 @@ function TabButton({
 }) {
   return (
     <button
-      className={`relative px-6 py-4 text-sm font-medium transition-colors hover:bg-secondary/50 ${
-        active ? "text-primary font-bold" : "text-muted-foreground"
-      }`}
+      className={`relative px-6 py-4 text-sm font-medium transition-colors hover:bg-secondary/50 ${active ? "text-primary font-bold" : "text-muted-foreground"
+        }`}
       onClick={onClick}
     >
       {label}
