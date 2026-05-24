@@ -39,21 +39,6 @@ export default function ProfilePage({ username }: { username?: string }) {
 
   //   console.log();
   // }, [activeTab]);
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-primary animate-pulse font-medium italic">
-          Loading Profile...
-        </div>
-      </div>
-    );
-  }
-
-  const editPageNavigate = () => {
-    router.push(`/edit-profile`);
-  };
-
   useEffect(() => {
     fetch("/api/user/me")
       .then((res) => res.json())
@@ -79,6 +64,20 @@ export default function ProfilePage({ username }: { username?: string }) {
   }, [activeTab, username])
 
   const isOwnProfile = !username || (currentUser && currentUser.name === username);
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-primary animate-pulse font-medium italic">
+          Loading Profile...
+        </div>
+      </div>
+    );
+  }
+
+  const editPageNavigate = () => {
+    router.push(`/edit-profile`);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground border-x border-border">
