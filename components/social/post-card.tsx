@@ -180,7 +180,7 @@ export function PostCard({ post, isProfileView }: PostProps) {
 
     const handleProfileClick = () => {
         if (post.author.name) {
-             router.push(`/profile/${encodeURIComponent(post.author.name)}`)
+            router.push(`/profile/${encodeURIComponent(post.author.name)}`)
         }
     }
 
@@ -232,16 +232,21 @@ export function PostCard({ post, isProfileView }: PostProps) {
                     {/* Header */}
                     <div className="flex items-center justify-between gap-1 mb-0.5">
                         <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
-                            <span 
+                            <span
                                 className="font-bold text-[15px] text-foreground hover:underline cursor-pointer truncate"
                                 onClick={handleProfileClick}
-                                >
+                            >
                                 {post.author.name}
                             </span>
                             {post.author.verified && (
                                 <Verified className="h-[15px] w-[15px] fill-primary text-primary-foreground shrink-0" />
                             )}
-                            <span className="text-muted-foreground text-[14px] truncate">@{post.author.name.toLowerCase().replace(/\s+/g, '')}</span>
+                            <span
+                                className="text-muted-foreground text-[14px] truncate"
+                                onClick={handleProfileClick}
+                            >
+                                @{post.author.name.toLowerCase().replace(/\s+/g, '')}
+                            </span>
                             <span className="text-muted-foreground text-[14px]">·</span>
                             <span className="text-muted-foreground text-[14px] hover:underline cursor-pointer">1h</span>
                         </div>

@@ -40,19 +40,19 @@ export default function ProfilePage({ username }: { username?: string }) {
   //   console.log();
   // }, [activeTab]);
 
-  // if (!user) {
-  //   return (
-  //     <div className="min-h-screen bg-background flex items-center justify-center">
-  //       <div className="text-primary animate-pulse font-medium italic">
-  //         Loading Profile...
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-primary animate-pulse font-medium italic">
+          Loading Profile...
+        </div>
+      </div>
+    );
+  }
 
-  // const editPageNavigate = () => {
-  //   router.push(`/edit-profile`);
-  // };
+  const editPageNavigate = () => {
+    router.push(`/edit-profile`);
+  };
 
   useEffect(() => {
     fetch("/api/user/me")

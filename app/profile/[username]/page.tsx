@@ -5,8 +5,8 @@ import ProfilePage from "@/components/social/profile";
 
 export default async function Profile({ params } : {params: Promise<{username: string}>}) {
 
-    const { username } = await params;
-    const decodedUsername = decodeURIComponent(username);
+    const usernameParams = await params;
+    const decodedUsername = decodeURIComponent(usernameParams.username);
 
     return(
         <div className="flex min-h-screen bg-background">
