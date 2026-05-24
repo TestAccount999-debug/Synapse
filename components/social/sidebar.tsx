@@ -22,7 +22,7 @@ import { useEffect, useState } from "react"
 const navItems: { icon: any; label: string; href: string; badge?: number }[] = [
     { icon: Home, label: "Home", href: "/feed" },
     // { icon: Search, label: "Explore", href: "/explore" },
-    // { icon: Bell, label: "Notifications", href: "/notifications", badge: 3 },
+    { icon: Bell, label: "Notifications", href: "/notifications", badge: 3 },
     // { icon: Mail, label: "Messages", href: "/messages", badge: 12 },
     { icon: User, label: "Profile", href: "/profile" },
     // { icon: Settings, label: "Settings", href: "/settings" },
