@@ -219,7 +219,10 @@ export function PostCard({ post, isProfileView }: PostProps) {
             <div className="flex flex-row gap-3 p-4">
                 {/* Avatar Column */}
                 <div className="flex flex-col items-center">
-                    <Avatar className="h-11 w-11 transition-opacity hover:opacity-90 cursor-pointer">
+                    <Avatar 
+                        className="h-11 w-11 transition-opacity hover:opacity-90 cursor-pointer"
+                        onClick={handleProfileClick}
+                    >
                         <AvatarImage src={post.author.avatar} alt={post.author.name} />
                         <AvatarFallback className="bg-primary/10 text-primary text-xs">
                             {post.author.name.charAt(0)}

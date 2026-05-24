@@ -1,11 +1,12 @@
 "use client"
 
+import { use } from "react";
 import { Sidebar } from "@/components/social/sidebar";
 import ProfilePage from "@/components/social/profile";
 
-export default async function Profile({ params } : {params: Promise<{username: string}>}) {
+export default function Profile({ params } : {params: Promise<{username: string}>}) {
 
-    const usernameParams = await params;
+    const usernameParams = use(params);
     const decodedUsername = decodeURIComponent(usernameParams.username);
 
     return(

@@ -47,7 +47,7 @@ export default function ProfilePage({ username }: { username?: string }) {
   }, [])
 
   useEffect(() => {
-    const url = username ? `/api/profile?username=${encodeURIComponent(username)}` : `/api/profile?username=${encodeURIComponent(currentUser)}`;
+    const url = username ? `/api/profile?username=${encodeURIComponent(username)}` : `/api/profile`;
 
     fetch(url)
       .then((res) => res.json())
