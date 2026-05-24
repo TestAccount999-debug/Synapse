@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { likes, users, posts, comments } from "@/db/schema"
+import { likes, users, posts, comments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
@@ -7,148 +7,154 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 
 export async function GET(req: Request) {
-    const { searchParams } = new URL(req.url);
-    const tabParams = searchParams.get("tab");
-    
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+  const { searchParams } = new URL(req.url);
+  const tabParams = searchParams.get("tab");
 
-    if (!token) {
-        return NextResponse.json({ error: "No Token Found" }, {status: 401});
-    }
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
 
-    const decoded = verifyToken(token);
+  if (!token) {
+    return NextResponse.json({ error: "No Token Found" }, { status: 401 });
+  }
 
-    if(!decoded || !decoded.userId) {
-        return NextResponse.json({error: "Invalid token"}, {status: 401});
-    }
+  const decoded = verifyToken(token);
 
-    const userID = Number(decoded.userId);
+  if (!decoded || !decoded.userId) {
+    return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+  }
 
-    const validTabs = ["posts", "likes", "comments", "bookmarks", "reposts"] as const;
-    const tabs = validTabs.includes(tabParams as any) ? tabParams : "posts"
+  const userID = Number(decoded.userId);
 
-    let data;
+  const validTabs = [
+    "posts",
+    "likes",
+    "comments",
+    "bookmarks",
+    "reposts",
+  ] as const;
+  const tabs = validTabs.includes(tabParams as any) ? tabParams : "posts";
 
-    switch (tabs) {
-        
-        case "posts":
-            data = await db.query.users.findFirst({
-                where: (users, { eq, and }) => eq(users.id, userID),
+  let data;
+
+  switch (tabs) {
+    case "posts":
+      data = await db.query.users.findFirst({
+        where: (users, { eq, and }) => eq(users.id, userID),
+        with: {
+          posts: true,
+        },
+      });
+      break;
+
+    case "likes":
+      data = await db.query.users.findFirst({
+        where: (users, { eq, and }) => eq(users.id, userID),
+        with: {
+          likes: {
+            with: {
+              post: {
                 with: {
-                    posts: true
-                }
-            })
-            break;
+                  author: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      break;
 
-        case "likes":
-            data = await db.query.users.findFirst({
-                where: (users, { eq, and }) => eq(users.id, userID),
+    case "reposts":
+      data = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, userID),
+        with: {
+          reposts: {
+            with: {
+              post: {
                 with: {
-                    likes: {
-                        with: {
-                            post: {
-                                with: {
-                                    author: true
-                                }
-                            }
-                        }
-                    }
-                }
+                  author: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      break;
 
-            })
-            break;
-
-        case "reposts":
-            data = await db.query.users.findFirst({
-                where: (users, {eq}) => eq(users.id, userID),
+    case "bookmarks":
+      data = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, userID),
+        with: {
+          bookmarks: {
+            with: {
+              post: {
                 with: {
-                    reposts: {
-                        with: {
-                            post: {
-                                with: {
-                                    author: true
-                                }
-                            }
-                        }
-                    }
-                }
-            })
-            break;
+                  author: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      break;
 
-        case "bookmarks":
-            data = await db.query.users.findFirst({
-                where: (users, { eq })=> eq(users.id, userID),
+    case "comments":
+      data = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, userID),
+        with: {
+          comments: {
+            with: {
+              post: {
                 with: {
-                    bookmarks: {
-                        with: {
-                            post: {
-                                with: {
-                                    author: true
-                                }
-                            }
-                        }
-                    }
-                }
-            })
-            break;
+                  author: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      break;
+  }
 
-        case "comments":
-            data = await db.query.users.findFirst({
-                where: (users, { eq }) => eq(users.id, userID),
-                with: {
-                    comments: {
-                        with: {
-                            post: {
-                                with: {
-                                    author: true
-                                }
-                            }
-                        }
-                    }
-                }
-            })
-            break;
-
-    }
-        
-    return NextResponse.json(data)
+  return NextResponse.json(data);
 }
 
 export async function PUT(req: Request) {
-    const body = await req.json();
+  const body = await req.json();
 
-    const { name, bio, location, website, avatar, banner } = body;
-    
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+  const { name, bio, location, website, avatar, banner } = body;
 
-    if (!token) {
-        return NextResponse.json({ error: "No Token Found" }, {status: 401});
-    }
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
 
-    const decoded = verifyToken(token);
+  if (!token) {
+    return NextResponse.json({ error: "No Token Found" }, { status: 401 });
+  }
 
-    if(!decoded || !decoded.userId) {
-        return NextResponse.json({error: "Invalid token"}, {status: 401});
-    }
+  const decoded = verifyToken(token);
 
-    const userID = Number(decoded.userId);
-    
-    try {
-        await db.update(users).set({
-            name: name,
-            bio: bio,
-            location: location,
-            website: website,
-            avatar: avatar,
-            banner: banner
-        }).where(eq(users.id, userID))
-    
-        revalidatePath("/", "layout")
-        return NextResponse.json({ message: "Profile Updated"}, { status: 200})
-    } catch (err) {
-        return NextResponse.json({ error: err}, { status: 500})
-    }
+  if (!decoded || !decoded.userId) {
+    return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+  }
 
+  const userID = Number(decoded.userId);
+
+  try {
+    await db
+      .update(users)
+      .set({
+        name: name,
+        bio: bio,
+        location: location,
+        website: website,
+        avatar: avatar,
+        banner: banner,
+      })
+      .where(eq(users.id, userID));
+
+    revalidatePath("/", "layout");
+    return NextResponse.json({ message: "Profile Updated" }, { status: 200 });
+  } catch (err) {
+    return NextResponse.json({ error: err }, { status: 500 });
+  }
 }
+
