@@ -1,1 +1,2 @@
-DATABASE_URL=postgresql://admin:password@localhost:5432/synapse_admin_db
+DATABASE_URL=postgresql://abhipatel:0089@localhost:5432/synapse
+JWT_SECRET=212f7e59c8eb7793b1c8b2798af3fd09f1e6020604e5305eef63ab0bf82dddea86caea9103391a95335121150d173ece27f4e9c824324dd090743caa20ed421e

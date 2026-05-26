@@ -7,6 +7,7 @@ export const users = pgTable("users", {
     name: text("name").notNull().unique(),
     email: text("email").notNull().unique(),
     password: text("password").notNull().unique(),
+    role: text("role").default("user").notNull(),
     bio: text("bio"),
     website: text("website"),
     location: text("location"),
@@ -71,6 +72,21 @@ export const bookmark = pgTable("bookmark", {
         .notNull()
 })
 
+export const reports = pgTable("reports", {
+    id: serial("id").primaryKey(),
+    reporterId: integer("reporter_id").references(() => users.id, { onDelete: "cascade" }),
+    postId: integer("post_id").references(() => posts.id, { onDelete: "cascade" }),
+    reason: text("reason").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull()
+})
+
+export const feedback = pgTable("feedback", {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").references(() => users.id, { onDelete: "set null" }),
+    email: text("email").notNull(),
+    content: text("content").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull()
+})
 
 export const userRelations = relations(users, ({ many }) => ({
     posts: many(posts),
@@ -158,3 +174,22 @@ export const notificationsRelations = relations(notifications, ({ one }) => ({
         references: [posts.id]
     })
 }));
+
+export const reportsRelations = relations(reports, ({ one }) => ({
+    reporter: one(users, {
+        fields: [reports.reporterId],
+        references: [users.id]
+    }),
+
+    post: one(posts, {
+        fields: [reports.postId],
+        references: [posts.id]
+    })
+})) 
+
+export const feedbackRelations = relations(feedback, ({ one }) => {
+    user: one(users, {
+        fields: [feedback.userId],
+        references: [users.id]
+    })
+})
