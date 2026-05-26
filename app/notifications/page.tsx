@@ -44,8 +44,7 @@ export default function NotificationsPage() {
           setNotifications([])
         }
         setLoading(false)
-        
-        // Mark notifications as read once viewed
+
         fetch("/api/notifications", { method: "PUT" }).catch(err => console.error(err))
       })
       .catch(err => {
@@ -62,7 +61,6 @@ export default function NotificationsPage() {
     try {
       const res = await fetch("/api/notifications", { method: "PUT" })
       if (res.ok) {
-        // Optimistically update all to read
         setNotifications(prev => prev.map(n => ({ ...n, isRead: true })))
       }
     } catch (err) {
@@ -72,12 +70,10 @@ export default function NotificationsPage() {
 
   const handleNotificationClick = (postId: number | null) => {
     if (postId) {
-      // Direct navigation to the post or feed page
       router.push(`/feed?postId=${postId}`)
     }
   }
 
-  // Format time ago (e.g. 2h, 3d, now)
   const formatTimeAgo = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
@@ -93,7 +89,6 @@ export default function NotificationsPage() {
     return date.toLocaleDateString(undefined, { month: "short", day: "numeric" })
   }
 
-  // Group notifications by time frames
   const getGroupedNotifications = () => {
     const now = new Date()
     const grouped: {
@@ -143,7 +138,7 @@ export default function NotificationsPage() {
           <div className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border/40 h-14 flex items-center justify-between px-6">
             <h1 className="text-xl font-bold text-foreground tracking-tight">Notifications</h1>
             {notifications.some(n => !n.isRead) && (
-              <button 
+              <button
                 onClick={handleMarkAllRead}
                 className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary/80 transition-colors py-1.5 px-3 rounded-full hover:bg-primary/10"
               >
@@ -181,8 +176,8 @@ export default function NotificationsPage() {
                       </h2>
                       <div className="space-y-1">
                         {list.map((notif) => (
-                          <div 
-                            key={notif.id} 
+                          <div
+                            key={notif.id}
                             onClick={() => handleNotificationClick(notif.postId)}
                             className="flex items-center justify-between p-2.5 rounded-xl hover:bg-secondary/40 transition-all duration-200 cursor-pointer group"
                           >
@@ -195,7 +190,7 @@ export default function NotificationsPage() {
                                     {notif.sender?.name?.charAt(0).toUpperCase() || "U"}
                                   </AvatarFallback>
                                 </Avatar>
-                                
+
                                 {/* Tiny overlaid type icon in bottom right */}
                                 <div className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full border-2 border-background shadow-sm bg-background">
                                   {notif.type === 'like' && <Heart className="text-rose-500 fill-rose-500 h-3 w-3" />}
@@ -224,7 +219,7 @@ export default function NotificationsPage() {
                             <div className="flex items-center gap-3 shrink-0 ml-4">
                               {/* Preview thumbnail of the post */}
                               {notif.post && (
-                                <div className="h-11 w-11 rounded-lg overflow-hidden border border-border/80 group-hover:border-primary/40 transition-colors bg-secondary/20 flex shrink-0">
+                                <div className="h-41 w-41 rounded-lg overflow-hidden border border-border/80 group-hover:border-primary/40 transition-colors bg-secondary/20 flex shrink-0">
                                   {notif.post.image ? (
                                     <img src={notif.post.image} alt="post preview" className="h-full w-full object-cover" />
                                   ) : (
@@ -234,7 +229,7 @@ export default function NotificationsPage() {
                                   )}
                                 </div>
                               )}
-                              
+
                               {/* Unread blue dot */}
                               {!notif.isRead && (
                                 <div className="h-2 w-2 rounded-full bg-primary animate-pulse shrink-0" />
