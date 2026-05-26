@@ -187,9 +187,9 @@ export const reportsRelations = relations(reports, ({ one }) => ({
     })
 })) 
 
-export const feedbackRelations = relations(feedback, ({ one }) => {
+export const feedbackRelations = relations(feedback, ({ one }) => ({
     user: one(users, {
         fields: [feedback.userId],
         references: [users.id]
     })
-})
+}))
