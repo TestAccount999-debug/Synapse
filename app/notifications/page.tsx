@@ -219,7 +219,7 @@ export default function NotificationsPage() {
                             <div className="flex items-center gap-3 shrink-0 ml-4">
                               {/* Preview thumbnail of the post */}
                               {notif.post && (
-                                <div className="h-41 w-41 rounded-lg overflow-hidden border border-border/80 group-hover:border-primary/40 transition-colors bg-secondary/20 flex shrink-0">
+                                <div className="h-21 w-41 rounded-lg overflow-hidden border border-border/80 group-hover:border-primary/40 transition-colors bg-secondary/20 flex shrink-0">
                                   {notif.post.image ? (
                                     <img src={notif.post.image} alt="post preview" className="h-full w-full object-cover" />
                                   ) : (
