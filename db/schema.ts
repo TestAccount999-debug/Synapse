@@ -1,6 +1,7 @@
-import { pgTable, serial, text, integer, timestamp } from "drizzle-orm/pg-core"
+import { pgTable, serial, text, integer, timestamp, PgTable } from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm";
 import { string } from "zod";
+import { boolean } from "drizzle-orm/gel-core";
 
 export const users = pgTable("users", {
     id: serial("id").primaryKey(),
@@ -26,9 +27,19 @@ export const posts = pgTable("posts", {
 export const comments = pgTable("comments", {
     id: serial("id").primaryKey(),
     userId: integer("userId").references(() => users.id).notNull(),
-    postId: integer("postId").references(() => posts.id, { onDelete: "cascade"}).notNull(),
+    postId: integer("postId").references(() => posts.id, { onDelete: "cascade" }).notNull(),
     content: text("content").notNull(),
     created_at: timestamp("created_at").defaultNow(),
+})
+
+export const notifications = pgTable("notifications", {
+    id: serial("id").primaryKey(),
+    recipientId: integer("recipient_id").references(() => users.id).notNull(),
+    senderId: integer("sender_id").references(() => users.id).notNull(),
+    type: text("type").notNull(),
+    postId: integer("post_id").references(() => posts.id, { onDelete: "cascade" }),
+    isRead: boolean("is_read").default(false).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
 })
 
 export const likes = pgTable("likes", {
@@ -37,7 +48,7 @@ export const likes = pgTable("likes", {
         .notNull(),
 
     postID: integer("postID")
-        .references(() => posts.id, { onDelete: "cascade"})
+        .references(() => posts.id, { onDelete: "cascade" })
         .notNull()
 })
 
@@ -47,7 +58,7 @@ export const reposts = pgTable("reposts", {
         .notNull(),
 
     postID: integer("postID")
-        .references(() => posts.id, { onDelete: "cascade"})
+        .references(() => posts.id, { onDelete: "cascade" })
         .notNull(),
 })
 
@@ -57,11 +68,12 @@ export const bookmark = pgTable("bookmark", {
         .notNull(),
 
     postID: integer("postID")
-        .references(() => posts.id, { onDelete: "cascade"})
+        .references(() => posts.id, { onDelete: "cascade" })
         .notNull()
 })
 
-export const userRelations = relations(users, ({many}) => ({
+
+export const userRelations = relations(users, ({ many }) => ({
     posts: many(posts),
     likes: many(likes),
     reposts: many(reposts),
@@ -69,8 +81,8 @@ export const userRelations = relations(users, ({many}) => ({
     comments: many(comments)
 }));
 
-export const postRelations = relations(posts, ({one, many}) => ({
-    author : one(users, {
+export const postRelations = relations(posts, ({ one, many }) => ({
+    author: one(users, {
         fields: [posts.author],
         references: [users.id],
     }),
@@ -79,7 +91,7 @@ export const postRelations = relations(posts, ({one, many}) => ({
     bookmarks: many(bookmark)
 }));
 
-export const likeRelations = relations(likes, ({one}) => ({
+export const likeRelations = relations(likes, ({ one }) => ({
     post: one(posts, {
         fields: [likes.postID],
         references: [posts.id],
@@ -91,7 +103,7 @@ export const likeRelations = relations(likes, ({one}) => ({
     })
 }))
 
-export const repostsRelations = relations(reposts, ({one}) => ({
+export const repostsRelations = relations(reposts, ({ one }) => ({
     post: one(posts, {
         fields: [reposts.postID],
         references: [posts.id]
@@ -103,7 +115,7 @@ export const repostsRelations = relations(reposts, ({one}) => ({
     })
 }))
 
-export const bookmarkRelations = relations(bookmark, ({one}) => ({
+export const bookmarkRelations = relations(bookmark, ({ one }) => ({
     post: one(posts, {
         fields: [bookmark.postID],
         references: [posts.id]
@@ -115,7 +127,7 @@ export const bookmarkRelations = relations(bookmark, ({one}) => ({
     })
 }))
 
-export const commentsRelations = relations(comments, ({one}) => ({
+export const commentsRelations = relations(comments, ({ one }) => ({
     post: one(posts, {
         fields: [comments.postId],
         references: [posts.id]
@@ -126,3 +138,22 @@ export const commentsRelations = relations(comments, ({one}) => ({
         references: [users.id]
     })
 }))
+
+export const notificationsRelations = relations(notifications, ({ one }) => ({
+    recipient: one(users, {
+        fields: [notifications.recipientId],
+        references: [users.id],
+        relationName: "recipient",
+    }),
+
+    sender: one(users, {
+        fields: [notifications.senderId],
+        references: [users.id],
+        relationName: "sender",
+    }),
+
+    post: one(posts, {
+        fields: [notifications.postId],
+        references: [posts.id]
+    })
+}));
