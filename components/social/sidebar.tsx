@@ -31,6 +31,7 @@ const navItems: { icon: any; label: string; href: string; badge?: number }[] = [
 export function Sidebar() {
     const pathname = usePathname()
     const [user, setUser] = useState<{ id: Number | string; name: string } | null>(null);
+    const [unreadCount, setUnreadCount] = useState(0);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -48,7 +49,23 @@ export function Sidebar() {
             }
         }
 
+        const fetchUnreadCount = async () => {
+            try {
+                const response = await fetch("/api/notifications");
+                if (response.ok) {
+                    const data = await response.json();
+                    if (Array.isArray(data)) {
+                        const unread = data.filter((n: any) => !n.isRead).length;
+                        setUnreadCount(unread);
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch unread notifications count.", err);
+            }
+        };
+
         fetchUser();
+        fetchUnreadCount();
     }, [])
 
     return (
@@ -63,8 +80,8 @@ export function Sidebar() {
             <nav className="flex flex-1 flex-col gap-1 w-full">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href
-                    // Dynamic profile link
                     const href = item.href
+                    const badge = item.label === "Notifications" ? unreadCount : item.badge;
 
                     return (
                         <Link
@@ -77,9 +94,9 @@ export function Sidebar() {
                         >
                             <item.icon className="h-6 w-6 shrink-0" />
                             <span className="hidden text-base font-medium lg:block">{item.label}</span>
-                            {item.badge && (
+                            {badge !== undefined && badge > 0 && (
                                 <span className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-medium text-primary-foreground lg:relative lg:right-auto lg:top-auto lg:ml-auto">
-                                    {item.badge}
+                                    {badge}
                                 </span>
                             )}
                         </Link>

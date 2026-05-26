@@ -1,7 +1,6 @@
-import { pgTable, serial, text, integer, timestamp, PgTable } from "drizzle-orm/pg-core"
+import { pgTable, serial, text, integer, timestamp, boolean, PgTable } from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm";
 import { string } from "zod";
-import { boolean } from "drizzle-orm/gel-core";
 
 export const users = pgTable("users", {
     id: serial("id").primaryKey(),
@@ -78,7 +77,9 @@ export const userRelations = relations(users, ({ many }) => ({
     likes: many(likes),
     reposts: many(reposts),
     bookmarks: many(bookmark),
-    comments: many(comments)
+    comments: many(comments),
+    receivedNotifications: many(notifications, { relationName: "recipient" }),
+    sentNotifications: many(notifications, { relationName: "sender" }),
 }));
 
 export const postRelations = relations(posts, ({ one, many }) => ({

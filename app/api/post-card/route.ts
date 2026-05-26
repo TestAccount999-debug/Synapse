@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { and, eq, sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { posts, users, likes, reposts, bookmark } from "@/db/schema";
+import { posts, users, likes, reposts, bookmark, notifications } from "@/db/schema";
 import { BookMarked } from "lucide-react";
 
 export async function GET(req: Request) {
@@ -63,6 +63,18 @@ export async function POST(req: Request) {
                 await db.update(posts)
                     .set({ likes: sql`${posts.likes} + 1` })
                     .where(eq(posts.id, numPostId));
+
+                const postRecord = await db.query.posts.findFirst({
+                    where: eq(posts.id, numPostId)
+                });
+                if (postRecord && postRecord.author && postRecord.author !== numUserId) {
+                    await db.insert(notifications).values({
+                        recipientId: postRecord.author,
+                        senderId: numUserId,
+                        type: "like",
+                        postId: numPostId
+                    });
+                }
             } else {
                 return NextResponse.json({ liked: true, updated: false })
             }
@@ -90,6 +102,14 @@ export async function POST(req: Request) {
                 await db.update(posts)
                     .set({ likes: sql`GREATEST(0, ${posts.likes} - 1)` })
                     .where(eq(posts.id, numPostId));
+
+                await db.delete(notifications).where(
+                    and(
+                        eq(notifications.senderId, numUserId),
+                        eq(notifications.postId, numPostId),
+                        eq(notifications.type, "like")
+                    )
+                );
             } else {
                 return NextResponse.json({ liked: false, updated: false })
             }
@@ -115,6 +135,18 @@ export async function POST(req: Request) {
                 await db.update(posts)
                     .set({ reposts: sql`${posts.reposts} + 1` })
                     .where(eq(posts.id, numPostId));
+
+                const postRecord = await db.query.posts.findFirst({
+                    where: eq(posts.id, numPostId)
+                });
+                if (postRecord && postRecord.author && postRecord.author !== numUserId) {
+                    await db.insert(notifications).values({
+                        recipientId: postRecord.author,
+                        senderId: numUserId,
+                        type: "repost",
+                        postId: numPostId
+                    });
+                }
             } else {
                 return NextResponse.json({ reposted: true, updated: false })
             }
@@ -142,6 +174,14 @@ export async function POST(req: Request) {
                 await db.update(posts)
                     .set({ reposts: sql`GREATEST(0, ${posts.reposts} - 1)` })
                     .where(eq(posts.id, numPostId));
+
+                await db.delete(notifications).where(
+                    and(
+                        eq(notifications.senderId, numUserId),
+                        eq(notifications.postId, numPostId),
+                        eq(notifications.type, "repost")
+                    )
+                );
             }
 
             else {
