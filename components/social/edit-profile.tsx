@@ -160,8 +160,7 @@ export default function EditProfilePage() {
 
     return (
 
-        // <div className="min-h-screen bg-background text-foreground border-x border-border max-w-2xl mx-auto">
-        <div className="min-h-screen bg-background text-foreground border-x border-border w-auto ml-[15%] mx-auto">
+        <div className="min-h-screen bg-background text-foreground border-x border-border w-full ml-20 lg:ml-64 px-6 sm:px-10 lg:px-16">
             <Sidebar />
             <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-background/80 backdrop-blur-md border-b border-border">
                 <div className="flex items-center gap-6">

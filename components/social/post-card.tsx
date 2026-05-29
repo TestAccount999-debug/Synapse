@@ -215,11 +215,11 @@ export function PostCard({ post, isProfileView }: PostProps) {
     }, [])
 
     return (
-        <Card className="border-border bg-card hover:bg-secondary/20 transition-all duration-200 border-none shadow-none rounded-none border-b border-border/50 first:border-t">
+        <Card className="post-card-border bg-card hover:bg-secondary/20 transition-all duration-200 shadow-sm rounded-2xl overflow-hidden">
             <div className="flex flex-row gap-3 p-4">
                 {/* Avatar Column */}
                 <div className="flex flex-col items-center">
-                    <Avatar 
+                    <Avatar
                         className="h-11 w-11 transition-opacity hover:opacity-90 cursor-pointer"
                         onClick={handleProfileClick}
                     >

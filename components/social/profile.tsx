@@ -13,6 +13,7 @@ import {
   TableColumnsSplit,
 } from "lucide-react";
 import { PostCard } from "./post-card";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function ProfilePage({ username }: { username?: string }) {
   const [activeTab, setActiveTab] = useState<
@@ -94,7 +95,7 @@ export default function ProfilePage({ username }: { username?: string }) {
       </div>
 
       {/* Profile header */}
-      <div className="mx-auto max-w-2xl px-4">
+      <div className="mx-auto w-full max-w-none px-6 sm:px-10 lg:px-16">
         <div className="relative -mt-16 flex items-end justify-between">
           <div className="flex h-32 w-32 items-center justify-center rounded-full bg-secondary border-4 border-background shadow-xl ring-2 ring-primary/20 overflow-hidden">
             {user?.avatar ? (
@@ -109,14 +110,16 @@ export default function ProfilePage({ username }: { username?: string }) {
           </div>
           {
             isOwnProfile && (
-              <button
-                className="mb-2 flex items-center gap-2 rounded-full border border-primary px-5 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
-                onClick={editPageNavigate}
-              >
-                <Edit2 className="h-4 w-4" />
-                Edit Profile
-              </button>
-
+              <div className="flex items-center gap-3 mb-2">
+                <button
+                  className="flex items-center gap-2 rounded-full border border-primary px-5 py-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+                  onClick={editPageNavigate}
+                >
+                  <Edit2 className="h-4 w-4" />
+                  Edit Profile
+                </button>
+                <ThemeToggle />
+              </div>
             )
           }
         </div>

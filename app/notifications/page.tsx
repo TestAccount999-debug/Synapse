@@ -133,7 +133,7 @@ export default function NotificationsPage() {
     <div className="flex min-h-screen bg-background">
       <Sidebar />
       <div className="flex flex-1 ml-20 lg:ml-64 justify-center">
-        <main className="flex-1 border-r border-border/50 min-h-screen max-w-2xl bg-background/50 backdrop-blur-sm">
+        <main className="flex-1 border-r border-border/50 min-h-screen w-full max-w-none bg-background/50 backdrop-blur-sm">
           {/* Header */}
           <div className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border/40 h-14 flex items-center justify-between px-6">
             <h1 className="text-xl font-bold text-foreground tracking-tight">Notifications</h1>

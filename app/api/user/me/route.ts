@@ -32,6 +32,7 @@ export async function GET() {
             id: user.id,
             name: user.name,
             email: user.email,
+            role: user.role,
         });
     } catch (err) {
         return NextResponse.json({error: "Server error"}, {status: 500});

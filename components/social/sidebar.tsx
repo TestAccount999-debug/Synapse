@@ -14,6 +14,8 @@ import {
     PenSquare,
     Settings,
     TrendingUp,
+    Zap,
+    Shield,
 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -30,7 +32,7 @@ const navItems: { icon: any; label: string; href: string; badge?: number }[] = [
 
 export function Sidebar() {
     const pathname = usePathname()
-    const [user, setUser] = useState<{ id: Number | string; name: string } | null>(null);
+    const [user, setUser] = useState<{ id: Number | string; name: string; role?: string } | null>(null);
     const [unreadCount, setUnreadCount] = useState(0);
 
     useEffect(() => {
@@ -72,13 +74,16 @@ export function Sidebar() {
         <aside className="fixed left-0 top-0 z-40 flex h-screen w-20 flex-col items-center border-r border-border bg-sidebar py-6 lg:w-64 lg:items-start lg:px-4">
             <Link href="/" className="mb-8 flex items-center gap-3 px-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
-                    <span className="text-xl font-bold text-primary-foreground">N</span>
+                    <Zap className="h-5 w-5 text-primary-foreground" />
                 </div>
                 <span className="hidden text-xl font-bold text-foreground lg:block">Synapse</span>
             </Link>
 
             <nav className="flex flex-1 flex-col gap-1 w-full">
-                {navItems.map((item) => {
+                {[
+                    ...navItems,
+                    ...(user?.role === "admin" ? [{ icon: Shield, label: "Admin Portal", href: "/admin" }] : [])
+                ].map((item) => {
                     const isActive = pathname === item.href
                     const href = item.href
                     const badge = item.label === "Notifications" ? unreadCount : item.badge;

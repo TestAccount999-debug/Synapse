@@ -62,7 +62,7 @@ export default function CommentBox({ comment, isProfileView }: CommentProps) {
     }
 
     return (
-        <div className="flex items-start justify-between py-2.5 group">
+        <div className="comment-box-border flex items-start justify-between py-2.5 group">
             <div className="flex items-start gap-3 flex-1 min-w-0">
                 <Avatar className="h-8 w-8 shrink-0 border border-border/50">
                     <AvatarImage src={comment.user.avatar} alt={comment.user.name}>

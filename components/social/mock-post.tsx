@@ -127,19 +127,19 @@ export default function MockPosts({ post }: MockProps) {
                     <div className="p-4 border border-border rounded-xl hover:bg-secondary/5 transition-colors flex flex-col gap-3 group">
                         <div className="flex justify-between items-start gap-4">
                             <p className="text-sm leading-relaxed whitespace-pre-wrap">{post.content}</p>
-                            <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                            <div className="flex items-center gap-1.5 shrink-0">
                                 <button
                                     onClick={() => {
                                         setEditContent(post.content);
                                         setIsEditing(true);
                                     }}
-                                    className="p-2 text-muted-foreground hover:text-primary transition-colors hover:bg-primary/10 rounded-full"
+                                    className="p-2 bg-secondary/50 text-foreground hover:text-primary hover:bg-secondary transition-colors rounded-full"
                                     title="Edit post"
                                 >
                                     <Pencil className="h-4 w-4" />
                                 </button>
                                 <button
-                                    className="p-2 text-muted-foreground hover:text-destructive transition-colors hover:bg-destructive/10 rounded-full"
+                                    className="p-2 bg-secondary/50 text-foreground hover:text-destructive hover:bg-secondary transition-colors rounded-full"
                                     title="Delete Post"
                                     onClick={deletePost}
                                 >
