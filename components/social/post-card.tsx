@@ -179,9 +179,14 @@ export function PostCard({ post, isProfileView }: PostProps) {
     }
 
     const handleProfileClick = () => {
-        if (post.author.name) {
+        if (post.author.name){ 
             router.push(`/profile/${encodeURIComponent(post.author.name)}`)
         }
+    }
+
+    const handleReport = () => {
+        
+
     }
 
     useEffect(() => {
@@ -263,7 +268,7 @@ export function PostCard({ post, isProfileView }: PostProps) {
                             <DropdownMenuContent align="end" className="w-48 rounded-xl">
                                 <DropdownMenuItem className="gap-2">Not interested</DropdownMenuItem>
                                 <DropdownMenuItem className="gap-2">Follow @{post.author.name}</DropdownMenuItem>
-                                <DropdownMenuItem className="text-destructive gap-2">Report post</DropdownMenuItem>
+                                <DropdownMenuItem className="text-destructive gap-2" onClick={handleReport}>Report post</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
