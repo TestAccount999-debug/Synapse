@@ -88,3 +88,5 @@ generated/
 # =========================
 *.tmp
 *.temp
+.vercel
+.env*
