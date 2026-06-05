@@ -233,7 +233,25 @@ export function PostCard({ post, isProfileView }: PostProps) {
         setReportSubmitted(false);
     }
 
-    const handleSubmitReport = () => {
+    const handleSubmitReport = async () => {
+        
+        console.log(userId, post.id, reportReason)
+
+        const data = await fetch("/api/reports", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({
+                postId: post.id,
+                reason: reportReason
+            })
+        })
+
+        const res = await data.json()
+
+        console.log(res);
+
         setIsReported(true);
         setReport((prev: number) => prev + 1);
         setReportSubmitted(true);
