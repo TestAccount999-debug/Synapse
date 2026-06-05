@@ -64,12 +64,12 @@ export const reposts = pgTable("reposts", {
 
 export const bookmark = pgTable("bookmark", {
     userID: integer("userID")
-        .references(() => users.id)
-        .notNull(),
-
+    .references(() => users.id)
+    .notNull(),
+    
     postID: integer("postID")
-        .references(() => posts.id, { onDelete: "cascade" })
-        .notNull()
+    .references(() => posts.id, { onDelete: "cascade" })
+    .notNull()
 })
 
 export const reports = pgTable("reports", {

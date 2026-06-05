@@ -12,6 +12,9 @@ import {
     Bookmark,
     MoreHorizontal,
     Verified,
+    X,
+    AlertTriangle,
+    CheckCircle2,
 } from "lucide-react"
 import {
     DropdownMenu,
@@ -39,10 +42,12 @@ interface PostProps {
         likes: number
         comments: number
         reposts: number
+        reports: number
         timestamp: string
         isLiked?: boolean
         isBookmarked?: boolean
         isReposted?: boolean
+        isReported?: boolean
     },
     isProfileView?: boolean
 }
@@ -55,6 +60,13 @@ export function PostCard({ post, isProfileView }: PostProps) {
 
     const [repost, setRepost] = useState(post.reposts || 0);
     const [isReposted, setIsReposted] = useState(post.reposts || false);
+
+    const [report, setReport] = useState<any>(post.reports || 0);
+    const [isReported, setIsReported] = useState(post.reports || false);
+    const [reportContainer, setReportContainer] = useState(false);
+    const [reportReason, setReportReason] = useState("");
+    const [reportDetails, setReportDetails] = useState("");
+    const [reportSubmitted, setReportSubmitted] = useState(false);
 
     const [comment, setComment] = useState<any[]>([]);
     const [showComment, setShowComment] = useState(false);
@@ -179,14 +191,9 @@ export function PostCard({ post, isProfileView }: PostProps) {
     }
 
     const handleProfileClick = () => {
-        if (post.author.name){ 
+        if (post.author.name) {
             router.push(`/profile/${encodeURIComponent(post.author.name)}`)
         }
-    }
-
-    const handleReport = () => {
-        
-
     }
 
     useEffect(() => {
@@ -218,6 +225,19 @@ export function PostCard({ post, isProfileView }: PostProps) {
 
         fetchMe();
     }, [])
+
+    const handleCloseReportModal = () => {
+        setReportContainer(false);
+        setReportReason("");
+        setReportDetails("");
+        setReportSubmitted(false);
+    }
+
+    const handleSubmitReport = () => {
+        setIsReported(true);
+        setReport((prev: number) => prev + 1);
+        setReportSubmitted(true);
+    }
 
     return (
         <Card className="post-card-border bg-card hover:bg-secondary/20 transition-all duration-200 shadow-sm rounded-2xl overflow-hidden">
@@ -268,7 +288,7 @@ export function PostCard({ post, isProfileView }: PostProps) {
                             <DropdownMenuContent align="end" className="w-48 rounded-xl">
                                 <DropdownMenuItem className="gap-2">Not interested</DropdownMenuItem>
                                 <DropdownMenuItem className="gap-2">Follow @{post.author.name}</DropdownMenuItem>
-                                <DropdownMenuItem className="text-destructive gap-2" onClick={handleReport}>Report post</DropdownMenuItem>
+                                <DropdownMenuItem className="text-destructive gap-2" onClick={() => setReportContainer(prev => !prev)}>Report post</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
@@ -378,6 +398,115 @@ export function PostCard({ post, isProfileView }: PostProps) {
                         </div>
                     )}
                 </div>
+                {
+                    reportContainer && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200">
+                            <div className="bg-card text-card-foreground border border-border shadow-2xl rounded-2xl w-full max-w-md p-6 relative flex flex-col gap-4 animate-in zoom-in-95 duration-200">
+                                {reportSubmitted ? (
+                                    <div className="flex flex-col items-center text-center py-6 gap-4">
+                                        <div className="h-16 w-16 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center">
+                                            <CheckCircle2 className="h-10 w-10 text-emerald-500" />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <h2 className="text-xl font-bold">Thank You</h2>
+                                            <p className="text-sm text-muted-foreground">
+                                                We've received your report. Your feedback helps keep Synapse safe.
+                                            </p>
+                                        </div>
+                                        <Button 
+                                            className="w-full mt-2 h-10 rounded-xl font-medium"
+                                            onClick={handleCloseReportModal}
+                                        >
+                                            Done
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {/* Header */}
+                                        <div className="flex items-start justify-between">
+                                            <div className="flex items-center gap-2.5">
+                                                <div className="h-9 w-9 bg-destructive/10 text-destructive rounded-full flex items-center justify-center shrink-0">
+                                                    <AlertTriangle className="h-5 w-5" />
+                                                </div>
+                                                <div>
+                                                    <h2 className="text-lg font-bold leading-none">Report Post</h2>
+                                                    <p className="text-xs text-muted-foreground mt-1">
+                                                        Your report is anonymous. Help us understand what's wrong.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 rounded-full text-muted-foreground hover:bg-secondary"
+                                                onClick={handleCloseReportModal}
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </Button>
+                                        </div>
+
+                                        {/* Options */}
+                                        <div className="flex flex-col gap-2 my-2">
+                                            {["Spam", "Harassment", "Violence", "Misinformation", "Other"].map((reason) => {
+                                                const isSelected = reportReason === reason;
+                                                return (
+                                                    <button
+                                                        key={reason}
+                                                        type="button"
+                                                        onClick={() => setReportReason(reason)}
+                                                        className={cn(
+                                                            "w-full flex items-center justify-between p-3 rounded-xl border text-sm font-medium transition-all text-left",
+                                                            isSelected
+                                                                ? "border-primary bg-primary/10 text-foreground"
+                                                                : "border-border hover:bg-secondary/50 text-muted-foreground hover:text-foreground"
+                                                        )}
+                                                    >
+                                                        <span>{reason}</span>
+                                                        {isSelected && (
+                                                            <CheckCircle2 className="h-4 w-4 text-primary" />
+                                                        )}
+                                                    </button>
+                                                );
+                                            })}
+                                        </div>
+
+                                        {/* Notes Textarea */}
+                                        <div className="flex flex-col gap-1.5">
+                                            <label className="text-xs font-semibold text-muted-foreground">
+                                                Additional details (Optional)
+                                            </label>
+                                            <textarea
+                                                placeholder="Please provide any extra context..."
+                                                value={reportDetails}
+                                                onChange={(e) => setReportDetails(e.target.value)}
+                                                className="w-full min-h-[80px] p-3 text-sm border border-border bg-background rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-all resize-none"
+                                                maxLength={300}
+                                            />
+                                        </div>
+
+                                        {/* Action buttons */}
+                                        <div className="flex items-center justify-end gap-2 mt-2 pt-2 border-t border-border">
+                                            <Button
+                                                variant="ghost"
+                                                onClick={handleCloseReportModal}
+                                                className="h-9 px-4 rounded-xl font-medium"
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                                disabled={!reportReason}
+                                                onClick={handleSubmitReport}
+                                                className="h-9 px-4 rounded-xl font-medium bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+                                            >
+                                                Submit Report
+                                            </Button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </Card >
     );

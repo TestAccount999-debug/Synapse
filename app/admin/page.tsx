@@ -15,7 +15,6 @@ export default function AdminDashboard() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if current user is an admin
     fetch("/api/user/me")
       .then((res) => {
         if (!res.ok) {
@@ -25,7 +24,7 @@ export default function AdminDashboard() {
       })
       .then((data) => {
         if (data.role !== "admin") {
-          router.push("/feed"); // Redirect non-admins
+          router.push("/feed"); 
         } else {
           setIsAdmin(true);
           fetchDashboardData();
