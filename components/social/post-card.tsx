@@ -235,8 +235,6 @@ export function PostCard({ post, isProfileView }: PostProps) {
 
     const handleSubmitReport = async () => {
         
-        console.log(userId, post.id, reportReason)
-
         const data = await fetch("/api/reports", {
             method: "POST",
             headers: {

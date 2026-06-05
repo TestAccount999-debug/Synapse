@@ -74,7 +74,7 @@ export async function DELETE(req: Request) {
     try {
         const { searchParams } = new URL(req.url);
         const reportId = searchParams.get("id");
-        const action = searchParams.get("action"); // "deletePost" | "dismiss"
+        const action = searchParams.get("action");
         const postId = searchParams.get("postId");
 
         if (!reportId) return NextResponse.json({ error: "Missing report ID" }, { status: 400 });
