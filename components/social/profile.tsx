@@ -26,20 +26,6 @@ export default function ProfilePage({ username }: { username?: string }) {
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   fetch(`/api/profile`)
-  //     .then((res) => res.json())
-  //     .then((data) => setUser(data))
-  //     .catch((err) => console.error("Fetch error:", err));
-  // }, []);
-
-  // useEffect(() => {
-  //   fetch(`/api/profile?tab=${activeTab}`)
-  //     .then((res) => res.json())
-  //     .then((data) => setTabContent(data));
-
-  //   console.log();
-  // }, [activeTab]);
   useEffect(() => {
     fetch("/api/user/me")
       .then((res) => res.json())
@@ -86,7 +72,7 @@ export default function ProfilePage({ username }: { username?: string }) {
       <div className="relative h-48 md:h-64 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent border-b border-border">
         {
           isOwnProfile && (
-            <button className="absolute right-4 bottom-4 flex items-center gap-2 rounded-lg bg-black/50 px-3 py-1.5 text-sm text-primary border border-primary/20 transition hover:bg-black/70 backdrop-blur-sm">
+            <button className="absolute right-4 bottom-4 flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-primary border border-primary/20 transition hover:bg-black/70 backdrop-blur-sm">
               <Camera className="h-4 w-4" />
               Edit cover
             </button>
