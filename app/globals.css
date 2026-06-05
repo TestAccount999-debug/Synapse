@@ -209,15 +209,15 @@ aside.bg-sidebar {
   background-color: var(--sidebar) !important;
   color: var(--sidebar-foreground) !important;
 }
-aside.bg-sidebar a {
+aside.bg-sidebar nav a {
   color: var(--muted-foreground) !important;
 }
-aside.bg-sidebar a:hover,
-aside.bg-sidebar a.bg-secondary {
+aside.bg-sidebar nav a:hover,
+aside.bg-sidebar nav a.bg-secondary {
   background-color: var(--sidebar-accent) !important;
   color: var(--sidebar-accent-foreground) !important;
 }
-aside.bg-sidebar a.bg-secondary * {
+aside.bg-sidebar nav a.bg-secondary * {
   color: var(--sidebar-accent-foreground) !important;
 }
 aside.bg-sidebar span.text-foreground {
