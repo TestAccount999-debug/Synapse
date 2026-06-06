@@ -4,6 +4,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+<<<<<<< HEAD
     /* ── Light Mode ─────────────────────────────────────────────── */
     --background: #ffffff;
     --foreground: #0f172a;
@@ -141,12 +142,155 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
+=======
+  /* ── Light Mode ─────────────────────────────────────────────── */
+  --background: #ffffff;
+  --foreground: #0f172a;
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  /* Primary Brand Accent: Digital Blue (#1d9bf0) */
+  --primary: #1d9bf0;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  /* Secondary Accent: Digital Blue (#1d9bf0) */
+  --accent: #f0f9ff;
+  --accent-foreground: #1d9bf0;
+
+  /* CTA / Destructive / Highlights: Red (#ef4444) */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #e2e8f0;
+  --input: transparent;
+  --ring: #1d9bf0;
+  --radius: 0.75rem;
+
+  /* Sidebar Background: White (#ffffff) */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #1d9bf0;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #1d9bf0;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #1d9bf0;
+}
+
+.dark {
+  /* ── Dark Mode ──────────────────────────────────────────────── */
+  --background: #000000;
+  --foreground: #ffffff;
+
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+
+  --popover: #0a0a0a;
+  --popover-foreground: #ffffff;
+
+  /* Primary Dark Accent: Digital Blue */
+  --primary: #1d9bf0;
+  --primary-foreground: #ffffff;
+
+  --secondary: #161616;
+  --secondary-foreground: #ffffff;
+
+  --muted: #161616;
+  --muted-foreground: #a1a1aa;
+
+  /* Secondary Accent: Digital Blue */
+  --accent: #0a0a0a;
+  --accent-foreground: #1d9bf0;
+
+  /* Destructive: Red */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #1f1f1f;
+  --input: transparent;
+  --ring: #1d9bf0;
+
+  --sidebar: #000000;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #1d9bf0;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #161616;
+  --sidebar-accent-foreground: #1d9bf0;
+  --sidebar-border: #1f1f1f;
+  --sidebar-ring: #1d9bf0;
+}
+
+@theme {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    box-sizing: border-box;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-y: scroll;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+>>>>>>> feat/post-reporting
 }
 
 /* ── Custom Scrollbar ─────────────────────────────────────── */
 ::-webkit-scrollbar {
+<<<<<<< HEAD
     width: 6px;
     height: 6px;
+=======
+  width: 6px;
+  height: 6px;
+>>>>>>> feat/post-reporting
 }
 
 ::-webkit-scrollbar-track {
@@ -154,18 +298,30 @@
 }
 
 ::-webkit-scrollbar-thumb {
+<<<<<<< HEAD
     background: var(--primary);
     opacity: 0.3;
     border-radius: 999px;
+=======
+  background: var(--primary);
+  opacity: 0.3;
+  border-radius: 999px;
+>>>>>>> feat/post-reporting
 }
 
 ::-webkit-scrollbar-thumb:hover {
+<<<<<<< HEAD
     background: var(--foreground);
     opacity: 0.6;
+=======
+  background: var(--foreground);
+  opacity: 0.6;
+>>>>>>> feat/post-reporting
 }
 
 /* ── Prose / Markdown ─────────────────────────────────────── */
 .prose pre {
+<<<<<<< HEAD
     background-color: var(--secondary);
     border-radius: var(--radius);
     padding: 1rem;
@@ -203,6 +359,37 @@
     margin-bottom: 0.5rem;
 }
 
+=======
+  background-color: var(--secondary);
+  border-radius: var(--radius);
+  padding: 1rem;
+  overflow-x: auto;
+}
+.prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  color: var(--foreground);
+  background-color: var(--muted);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+.prose p {
+  margin-bottom: 0.75rem;
+}
+.prose ul, .prose ol {
+  margin-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.prose li {
+  list-style-type: disc;
+}
+.prose h1, .prose h2, .prose h3 {
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+>>>>>>> feat/post-reporting
 /* ── Component borders ────────────────────────────────────── */
 aside.border-r {
     border-right: 1px solid var(--border) !important;
@@ -213,13 +400,18 @@ aside.border-r {
 }
 
 .comment-box-border {
+<<<<<<< HEAD
     border-bottom: 1px solid var(--border) !important;
+=======
+  border-bottom: 1px solid var(--border) !important;
+>>>>>>> feat/post-reporting
 }
 
 /* ── Custom Social Theme Enhancements ── */
 
 /* 1. Sidebar Styling */
 aside.bg-sidebar {
+<<<<<<< HEAD
     background-color: var(--sidebar) !important;
     color: var(--sidebar-foreground) !important;
 }
@@ -240,16 +432,40 @@ aside.bg-sidebar a.bg-secondary * {
 
 aside.bg-sidebar span.text-foreground {
     color: var(--sidebar-foreground) !important;
+=======
+  background-color: var(--sidebar) !important;
+  color: var(--sidebar-foreground) !important;
+}
+aside.bg-sidebar a {
+  color: var(--muted-foreground) !important;
+}
+aside.bg-sidebar a:hover,
+aside.bg-sidebar a.bg-secondary {
+  background-color: var(--sidebar-accent) !important;
+  color: var(--sidebar-accent-foreground) !important;
+}
+aside.bg-sidebar a.bg-secondary * {
+  color: var(--sidebar-accent-foreground) !important;
+}
+aside.bg-sidebar span.text-foreground {
+  color: var(--sidebar-foreground) !important;
+>>>>>>> feat/post-reporting
 }
 
 /* 2. Sidebar Notification Badges */
 aside nav span.bg-primary {
+<<<<<<< HEAD
     background-color: var(--destructive) !important;
     color: var(--destructive-foreground) !important;
+=======
+  background-color: var(--destructive) !important;
+  color: var(--destructive-foreground) !important;
+>>>>>>> feat/post-reporting
 }
 
 /* 3. Floating "New Post" Button styled using brand color */
 button.fixed.bottom-8.right-8 {
+<<<<<<< HEAD
     background-color: var(--primary) !important;
     color: var(--primary-foreground) !important;
     box-shadow: 0 8px 30px rgba(29, 155, 240, 0.3) !important;
@@ -265,19 +481,45 @@ button.fixed.bottom-8.right-8:hover {
 
 button.fixed.bottom-8.right-8 * {
     color: inherit !important;
+=======
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+  box-shadow: 0 8px 30px rgba(29, 155, 240, 0.3) !important;
+  border: none !important;
+}
+button.fixed.bottom-8.right-8:hover {
+  background-color: #0e84d1 !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 30px rgba(14, 132, 209, 0.4) !important;
+  transform: scale(1.05);
+}
+button.fixed.bottom-8.right-8 * {
+  color: inherit !important;
+>>>>>>> feat/post-reporting
 }
 
 /* 4. Style User Handles */
 span.truncate.text-muted-foreground {
+<<<<<<< HEAD
     color: var(--muted-foreground) !important;
 }
 
 .dark span.truncate.text-muted-foreground {
     color: var(--muted-foreground) !important;
+=======
+  color: var(--muted-foreground) !important;
+}
+.dark span.truncate.text-muted-foreground {
+  color: var(--muted-foreground) !important;
+>>>>>>> feat/post-reporting
 }
 
 /* 5. Heart/Likes Button Active State */
 button.text-rose-500,
 button.text-rose-500 * {
+<<<<<<< HEAD
     color: #ef4444 !important;
+=======
+  color: #ef4444 !important;
+>>>>>>> feat/post-reporting
 }

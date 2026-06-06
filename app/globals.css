@@ -50,6 +50,7 @@
 
 .dark {
   /* ── Dark Mode ──────────────────────────────────────────────── */
+<<<<<<< HEAD
   --background: #0f172a;
   --foreground: #f8fafc;
 
@@ -71,12 +72,36 @@
 
   /* Secondary Accent: Digital Blue */
   --accent: #1e293b;
+=======
+  --background: #000000;
+  --foreground: #ffffff;
+
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+
+  --popover: #0a0a0a;
+  --popover-foreground: #ffffff;
+
+  /* Primary Dark Accent: Digital Blue */
+  --primary: #1d9bf0;
+  --primary-foreground: #ffffff;
+
+  --secondary: #161616;
+  --secondary-foreground: #ffffff;
+
+  --muted: #161616;
+  --muted-foreground: #a1a1aa;
+
+  /* Secondary Accent: Digital Blue */
+  --accent: #0a0a0a;
+>>>>>>> feat/post-reporting
   --accent-foreground: #1d9bf0;
 
   /* Destructive: Red */
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
+<<<<<<< HEAD
   --border: #334155;
   --input: transparent;
   --ring: #1d9bf0;
@@ -88,6 +113,19 @@
   --sidebar-accent: #1e293b;
   --sidebar-accent-foreground: #1d9bf0;
   --sidebar-border: #334155;
+=======
+  --border: #1f1f1f;
+  --input: transparent;
+  --ring: #1d9bf0;
+
+  --sidebar: #000000;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #1d9bf0;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #161616;
+  --sidebar-accent-foreground: #1d9bf0;
+  --sidebar-border: #1f1f1f;
+>>>>>>> feat/post-reporting
   --sidebar-ring: #1d9bf0;
 }
 
@@ -209,6 +247,7 @@ aside.bg-sidebar {
   background-color: var(--sidebar) !important;
   color: var(--sidebar-foreground) !important;
 }
+<<<<<<< HEAD
 aside.bg-sidebar nav a {
   color: var(--muted-foreground) !important;
 }
@@ -218,6 +257,17 @@ aside.bg-sidebar nav a.bg-secondary {
   color: var(--sidebar-accent-foreground) !important;
 }
 aside.bg-sidebar nav a.bg-secondary * {
+=======
+aside.bg-sidebar a {
+  color: var(--muted-foreground) !important;
+}
+aside.bg-sidebar a:hover,
+aside.bg-sidebar a.bg-secondary {
+  background-color: var(--sidebar-accent) !important;
+  color: var(--sidebar-accent-foreground) !important;
+}
+aside.bg-sidebar a.bg-secondary * {
+>>>>>>> feat/post-reporting
   color: var(--sidebar-accent-foreground) !important;
 }
 aside.bg-sidebar span.text-foreground {
