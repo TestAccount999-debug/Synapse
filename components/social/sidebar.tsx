@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import {
     Home,
@@ -32,6 +32,7 @@ const navItems: { icon: any; label: string; href: string; badge?: number }[] = [
 
 export function Sidebar() {
     const pathname = usePathname()
+    const router = useRouter()
     const [user, setUser] = useState<{ id: Number | string; name: string; role?: string } | null>(null);
     const [unreadCount, setUnreadCount] = useState(0);
 
@@ -72,12 +73,15 @@ export function Sidebar() {
 
     return (
         <aside className="fixed left-0 top-0 z-40 flex h-screen w-20 flex-col items-center border-r border-border bg-sidebar py-6 lg:w-64 lg:items-start lg:px-4">
-            <Link href="/" className="mb-8 flex items-center gap-3 px-3">
+            <div 
+                onClick={() => router.push("/")} 
+                className="mb-8 flex items-center gap-3 px-3 cursor-pointer select-none"
+            >
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
                     <Zap className="h-5 w-5 text-primary-foreground" />
                 </div>
                 <span className="hidden text-xl font-bold text-foreground lg:block">Synapse</span>
-            </Link>
+            </div>
 
             <nav className="flex flex-1 flex-col gap-1 w-full">
                 {[
