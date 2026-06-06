@@ -22,6 +22,7 @@ export const posts = pgTable("posts", {
     createdAt: timestamp("created_at").defaultNow(),
     likes: integer("likes").default(0),
     reposts: integer("reposts").default(0),
+    image: text("image")
 })
 
 export const comments = pgTable("comments", {

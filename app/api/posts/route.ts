@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 export async function POST(req: Request) {
     const body = await req.json();
 
-    const { content, authorId } = body;
+    const { content, authorId, image } = body;
 
     if (!content || !authorId) {
         return NextResponse.json({ error: "Missing Fields" }, { status: 400 });
@@ -16,7 +16,8 @@ export async function POST(req: Request) {
     try {
         await db.insert(posts).values({
             content,
-            author: authorId
+            author: authorId,
+            image: image
         });
 
         revalidatePath("/", "layout");

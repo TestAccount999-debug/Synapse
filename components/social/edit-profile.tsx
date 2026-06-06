@@ -6,7 +6,6 @@ import { ArrowLeft, Camera, User, X, Loader2, Pencil, Trash2 } from "lucide-reac
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Sidebar } from "./sidebar";
 import MockPosts from "./mock-post";
 
 export default function EditProfilePage() {
@@ -159,10 +158,8 @@ export default function EditProfilePage() {
     }
 
     return (
-
-        <div className="min-h-screen bg-background text-foreground border-x border-border w-full ml-20 lg:ml-64 px-6 sm:px-10 lg:px-16">
-            <Sidebar />
-            <div className="sticky top-0 z-20 flex items-center justify-between px-4 py-3 bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="min-h-screen bg-background text-foreground border-x border-border pb-12">
+            <div className="sticky top-0 z-20 flex items-center justify-between px-6 sm:px-10 lg:px-16 py-3 bg-background/80 backdrop-blur-md border-b border-border">
                 <div className="flex items-center gap-6">
                     <button
                         onClick={() => Router.back()}
@@ -217,7 +214,7 @@ export default function EditProfilePage() {
                 />
             </div>
 
-            <div className="px-4">
+            <div className="px-6 sm:px-10 lg:px-16">
                 <div className="relative -mt-16 inline-block">
                     <div
                         className="relative flex h-32 w-32 items-center justify-center rounded-full overflow-hidden cursor-pointer bg-secondary border-4 border-background shadow-xl ring-2 ring-primary/20"
