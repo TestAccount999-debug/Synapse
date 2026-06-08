@@ -69,7 +69,12 @@ export default function ProfilePage({ username }: { username?: string }) {
   return (
     <div className="min-h-screen bg-background text-foreground border-x border-border">
       {/* Cover / Banner */}
-      <div className="relative h-48 md:h-64 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent border-b border-border">
+      <div
+        className="relative h-48 md:h-64 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent border-b border-border"
+        style={{
+          background: user?.banner ? `url("${user.banner}") center/cover no-repeat` : undefined
+        }}
+      >
         {
           isOwnProfile && (
             <button className="absolute right-4 bottom-4 flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-primary border border-primary/20 transition hover:bg-black/70 backdrop-blur-sm">

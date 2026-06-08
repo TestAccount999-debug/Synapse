@@ -90,19 +90,12 @@ export default function EditProfilePage() {
             }
 
             if (bannerFile) {
-                const formData = new FormData();
-                formData.append("file", bannerFile);
-
-                const uploadRes = await fetch("/api/upload", {
-                    method: "POST",
-                    body: formData,
-                });
-
-                if (uploadRes.ok) {
-                    const uploadData = await uploadRes.json();
-                    bannerUrl = uploadData.url;
-                } else {
-                    console.error("Banner upload failed");
+                try {
+                    bannerUrl = await uploadImage(bannerFile, "banner")
+                } catch (err: any) {
+                    alert(err.message || "Failed to upload the banner image.")
+                    setIsLoading(false)
+                    return
                 }
             }
 
