@@ -21,6 +21,7 @@ export async function POST(req: Request) {
         const postRecord = await db.query.posts.findFirst({
             where: eq(posts.id, numPostId)
         });
+
         if (postRecord && postRecord.author && postRecord.author !== numUserId) {
             await db.insert(notifications).values({
                 recipientId: postRecord.author,
@@ -30,7 +31,7 @@ export async function POST(req: Request) {
             });
         }
 
-        return NextResponse.json({ message: "Comment content added."})
+        return NextResponse.json({ message: "Comment content added." })
     } catch (err) {
         return NextResponse.json({ error: err }, { status: 500 })
     }
@@ -67,7 +68,7 @@ export async function DELETE(req: Request) {
 
         revalidatePath("/", "layout");
 
-        return NextResponse.json({ message: "Comment Deleted" }, { status: 200})
+        return NextResponse.json({ message: "Comment Deleted" }, { status: 200 })
     } catch (err) {
         return NextResponse.json({ error: err }, { status: 500 });
     }

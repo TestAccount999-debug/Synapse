@@ -182,12 +182,11 @@ export function PostCard({ post, isProfileView }: PostProps) {
         })
 
         const newComment = await res.json();
-        console.log(newComment);
 
         setComment((prev) => [newComment, ...prev])
+        window.location.reload();
         setCommentContent("")
         setLoadingComments(false);
-        console.log(comment);
     }
 
     const handleProfileClick = () => {
@@ -234,11 +233,11 @@ export function PostCard({ post, isProfileView }: PostProps) {
     }
 
     const handleSubmitReport = async () => {
-        
+
         const data = await fetch("/api/reports", {
             method: "POST",
             headers: {
-                "Content-Type" : "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 postId: post.id,
@@ -429,7 +428,7 @@ export function PostCard({ post, isProfileView }: PostProps) {
                                                 We've received your report. Your feedback helps keep Synapse safe.
                                             </p>
                                         </div>
-                                        <Button 
+                                        <Button
                                             className="w-full mt-2 h-10 rounded-xl font-medium"
                                             onClick={handleCloseReportModal}
                                         >
