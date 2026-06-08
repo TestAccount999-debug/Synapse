@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { verifyToken } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { deleteImage } from "@/lib/upload-image";
 
 async function getAdminUser() {
     const cookieStore = await cookies();
@@ -80,6 +81,15 @@ export async function DELETE(req: Request) {
         if (!reportId) return NextResponse.json({ error: "Missing report ID" }, { status: 400 });
 
         if (action === "deletePost" && postId) {
+            // Retrieve the post to check if there is an image to delete from Supabase Storage
+            const post = await db.query.posts.findFirst({
+                where: eq(posts.id, Number(postId))
+            });
+
+            if (post?.image) {
+                await deleteImage(post.image);
+            }
+
             await db.delete(posts).where(eq(posts.id, Number(postId)));
         } else {
             await db.delete(reports).where(eq(reports.id, Number(reportId)));

@@ -22,3 +22,26 @@ export async function uploadImage(file: File, bucket: string = 'post-images'): P
 
     return publicUrl
 }
+
+export async function deleteImage(imageUrl: string | null, bucket: string = 'post-images'): Promise<void> {
+    if (!imageUrl) return
+
+    try {
+        const bucketSearchStr = `/${bucket}/`
+        const index = imageUrl.indexOf(bucketSearchStr)
+        if (index === -1) return
+
+        const filePath = imageUrl.substring(index + bucketSearchStr.length)
+        if (!filePath) return
+
+        const { error } = await supabase.storage
+            .from(bucket)
+            .remove([filePath])
+
+        if (error) {
+            console.error(`Failed to delete image from Supabase Storage: ${error.message}`)
+        }
+    } catch (err) {
+        console.error("Error deleting image from Supabase Storage:", err)
+    }
+}

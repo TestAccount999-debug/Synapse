@@ -3,6 +3,7 @@ import { posts } from "@/db/schema"
 import { NextResponse } from "next/server"
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { deleteImage } from "@/lib/upload-image";
 
 export async function POST(req: Request) {
     const body = await req.json();
@@ -44,6 +45,15 @@ export async function DELETE(req: Request) {
         const body = await req.json();
 
         const { id } = body;
+
+        // Retrieve the post to check if there is an image to delete from Supabase Storage
+        const post = await db.query.posts.findFirst({
+            where: eq(posts.id, Number(id))
+        });
+
+        if (post?.image) {
+            await deleteImage(post.image);
+        }
 
         await db.delete(posts).where(eq(posts.id, Number(id)));
 
