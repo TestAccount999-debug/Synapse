@@ -7,8 +7,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Image, Smile, MapPin, CalendarDays, BarChart3, X, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { users } from "@/db/schema"
-import { readRouteCacheEntry } from "next/dist/client/components/segment-cache/cache"
 
 export function ComposeBox() {
   const [content, setContent] = useState("")
@@ -130,7 +128,6 @@ export function ComposeBox() {
 
                                 try {
                                   setUploading(true)
-                                  // Import the upload utility we built previously
                                   const { uploadImage } = await import('@/lib/upload-image')
                                   const url = await uploadImage(file, 'post-images')
                                   setAttachedImageUrl(url)

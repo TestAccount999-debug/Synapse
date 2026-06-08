@@ -46,7 +46,6 @@ export async function DELETE(req: Request) {
 
         const { id } = body;
 
-        // Retrieve the post to check if there is an image to delete from Supabase Storage
         const post = await db.query.posts.findFirst({
             where: eq(posts.id, Number(id))
         });

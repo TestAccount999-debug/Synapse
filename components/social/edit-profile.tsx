@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import MockPosts from "./mock-post";
+import { uploadImage } from "@/lib/upload-image";
 
 export default function EditProfilePage() {
     const [name, setName] = useState("");
@@ -79,19 +80,12 @@ export default function EditProfilePage() {
             let bannerUrl = bannerPreview;
 
             if (avatarFile) {
-                const formData = new FormData();
-                formData.append("file", avatarFile);
-
-                const uploadRes = await fetch("/api/upload", {
-                    method: "POST",
-                    body: formData,
-                });
-
-                if (uploadRes.ok) {
-                    const uploadData = await uploadRes.json();
-                    avatarUrl = uploadData.url;
-                } else {
-                    console.error("Avatar upload failed");
+                try {
+                    avatarUrl = await uploadImage(avatarFile, "avatar")
+                } catch(err: any) {
+                    alert(err.message || "Failed to upload the image")
+                    setIsLoading(false)
+                    return
                 }
             }
 
