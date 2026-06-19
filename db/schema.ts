@@ -65,12 +65,24 @@ export const reposts = pgTable("reposts", {
 
 export const bookmark = pgTable("bookmark", {
     userID: integer("userID")
-    .references(() => users.id)
-    .notNull(),
-    
+        .references(() => users.id)
+        .notNull(),
+
     postID: integer("postID")
-    .references(() => posts.id, { onDelete: "cascade" })
-    .notNull()
+        .references(() => posts.id, { onDelete: "cascade" })
+        .notNull()
+})
+
+export const follows = pgTable("follows", {
+    followerID: integer("followerID")
+        .references(() => users.id)
+        .notNull(),
+
+    followingID: integer("followingID")
+        .references(() => users.id)
+        .notNull(),
+
+    createdAt: timestamp("created_at").defaultNow().notNull()
 })
 
 export const reports = pgTable("reports", {
@@ -186,7 +198,7 @@ export const reportsRelations = relations(reports, ({ one }) => ({
         fields: [reports.postId],
         references: [posts.id]
     })
-})) 
+}))
 
 export const feedbackRelations = relations(feedback, ({ one }) => ({
     user: one(users, {
