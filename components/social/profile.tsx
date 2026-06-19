@@ -24,6 +24,8 @@ export default function ProfilePage({ username }: { username?: string }) {
   const [user, setUser] = useState<any>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
 
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -66,6 +68,26 @@ export default function ProfilePage({ username }: { username?: string }) {
     router.push(`/edit-profile`);
   };
 
+  const handleFollowingLogic = async() => {
+    console.log(user.id)
+    console.log("current user id: ", currentUser.id)
+
+    const data = await fetch("/api/follow-following", {
+      method: "POST",
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({
+        followerId: user.id,
+        followingId: currentUser.id
+      })
+    })
+
+    const res = await data.json();
+
+    console.log(res);
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground border-x border-border">
       {/* Cover / Banner */}
@@ -99,6 +121,26 @@ export default function ProfilePage({ username }: { username?: string }) {
               <User className="h-16 w-16 text-muted-foreground" />
             )}
           </div>
+
+          {
+            !isOwnProfile && (
+              <div className="flex items-center gap-3 mb-2">
+                <div
+                  className="flex items-center gap-2 rounded-full border border-primary px-5 pt-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+                >
+                  <button 
+                    className="mb-2"
+                    onClick={handleFollowingLogic}
+                  >
+                    {
+                      isFollowing ? "following" : "follow"
+                    }
+                  </button>
+                </div>
+              </div>
+            )
+          }
+
           {
             isOwnProfile && (
               <div className="flex items-center gap-3 mb-2">
