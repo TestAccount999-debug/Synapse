@@ -82,7 +82,7 @@ export default function EditProfilePage() {
             if (avatarFile) {
                 try {
                     avatarUrl = await uploadImage(avatarFile, "avatar")
-                } catch(err: any) {
+                } catch (err: any) {
                     alert(err.message || "Failed to upload the image")
                     setIsLoading(false)
                     return
@@ -204,16 +204,38 @@ export default function EditProfilePage() {
             <div className="px-6 sm:px-10 lg:px-16">
                 <div className="relative -mt-16 inline-block">
                     <div
-                        className="relative flex h-32 w-32 items-center justify-center rounded-full overflow-hidden cursor-pointer bg-secondary border-4 border-background shadow-xl ring-2 ring-primary/20"
                         onClick={() => avatarInputRef.current?.click()}
+                        className="relative group flex h-32 w-32 items-center justify-center rounded-full overflow-hidden cursor-pointer bg-secondary border-4 border-background shadow-xl ring-2 ring-primary/20 transition-all duration-300 hover:scale-102"
                     >
                         {avatarPreview ? (
-                            <img src={avatarPreview} alt="Avatar" className="h-full w-full object-cover" />
+                            <img
+                                src={avatarPreview}
+                                alt="Avatar"
+                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            />
                         ) : (
-                            <User className="h-16 w-16 text-muted-foreground" />
+                            <User className="h-16 w-16 text-muted-foreground transition-transform duration-300 group-hover:scale-110" />
                         )}
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition bg-black/40">
-                            <Camera className="h-8 w-8 text-white" />
+                        <div className="absolute inset-0 flex items-center justify-center gap-3 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div
+                                className="flex h-10 w-10 items-center justify-center rounded-full bg-black/60 transition hover:bg-black/80 hover:scale-110 text-white"
+                                title="Change avatar"
+                            >
+                                <Camera className="h-5 w-5" />
+                            </div>
+                            {avatarPreview && (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setAvatarPreview(null);
+                                        setAvatarFile(null);
+                                    }}
+                                    className="flex h-10 w-10 items-center justify-center rounded-full bg-black/60 transition hover:bg-black/80 hover:scale-110 text-white"
+                                    title="Remove avatar"
+                                >
+                                    <X className="h-5 w-5" />
+                                </button>
+                            )}
                         </div>
                     </div>
                     <input
