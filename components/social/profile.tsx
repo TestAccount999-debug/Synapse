@@ -28,6 +28,8 @@ export default function ProfilePage({ username }: { username?: string }) {
 
   const router = useRouter();
 
+  const isOwnProfile = !username || (currentUser && currentUser.name === username);
+
   useEffect(() => {
     fetch("/api/user/me")
       .then((res) => res.json())
@@ -52,7 +54,18 @@ export default function ProfilePage({ username }: { username?: string }) {
       .then((data) => setTabContent(data))
   }, [activeTab, username])
 
-  const isOwnProfile = !username || (currentUser && currentUser.name === username);
+  useEffect(() => {
+    if (!user || !currentUser || isOwnProfile) return;
+
+    fetch(`/api/follow-following?followerId=${currentUser.id}&followingId=${user.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && typeof data.isFollowing === "boolean") {
+          setIsFollowing(data.isFollowing);
+        }
+      })
+      .catch((err) => console.error("Error fetching follow status:", err));
+  }, [user, currentUser, isOwnProfile]);
 
   if (!user) {
     return (
@@ -69,24 +82,30 @@ export default function ProfilePage({ username }: { username?: string }) {
   };
 
   const handleFollowingLogic = async() => {
-    console.log(user.id)
-    console.log("current user id: ", currentUser.id)
+    try {
+      const data = await fetch("/api/follow-following", {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+          followerId: currentUser.id,
+          followingId: user.id
+        })
+      });
 
-    const data = await fetch("/api/follow-following", {
-      method: "POST",
-      headers: {
-        "Content-Type" : "application/json"
-      },
-      body: JSON.stringify({
-        followerId: user.id,
-        followingId: currentUser.id
-      })
-    })
-
-    const res = await data.json();
-
-    console.log(res);
+      if (data.ok) {
+        const res = await data.json();
+        // If successfully followed (201 Created)
+        if (data.status === 201) {
+          setIsFollowing(true);
+        }
+      }
+    } catch (err) {
+      console.error("Error in follow action:", err);
+    }
   }
+
 
   return (
     <div className="min-h-screen bg-background text-foreground border-x border-border">
