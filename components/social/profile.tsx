@@ -95,8 +95,6 @@ export default function ProfilePage({ username }: { username?: string }) {
       });
 
       if (data.ok) {
-        const res = await data.json();
-        // If successfully followed (201 Created)
         if (data.status === 201) {
           setIsFollowing(true);
         }
