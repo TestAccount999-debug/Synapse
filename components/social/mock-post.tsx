@@ -32,7 +32,7 @@ export default function MockPosts({ post }: MockProps) {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editContent, setEditContent] = useState("");
-    const [authorID, setAuthorID] = useState<{id: number} | null>(null);
+    const [authorID, setAuthorID] = useState<{ id: number } | null>(null);
     const maxLength = 200;
     const router = useRouter();
 
@@ -45,12 +45,12 @@ export default function MockPosts({ post }: MockProps) {
         setAuthorID(userID.id);
     }, [])
 
-    const handleEdits = async() => {
+    const handleEdits = async () => {
         try {
             const data = await fetch("/api/posts", {
                 method: "PUT",
                 headers: {
-                    "Content-Type" : "application/json"
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ id: post.id, content: editContent })
             });
@@ -67,14 +67,14 @@ export default function MockPosts({ post }: MockProps) {
         }
     }
 
-    const deletePost = async() => {
+    const deletePost = async () => {
         try {
             const data = await fetch("/api/posts", {
                 method: "DELETE",
                 headers: {
-                    "Content-Type" : "application/json"
+                    "Content-Type": "application/json"
                 },
-                body: JSON.stringify({id: post.id})
+                body: JSON.stringify({ id: post.id })
             });
 
             if (data.ok) {
