@@ -313,7 +313,7 @@ export function PostCard({ post, isProfileView }: PostProps) {
                         {post.content}
                     </p>
 
-                    {/* Media Placeholder (Optional) */}
+                    {/* Media Placeholder */}
                     {post.image && (
                         <div className="mb-3 rounded-2xl overflow-hidden border border-border">
                             <img src={post.image} alt="post" className="w-full object-contain max-h-[512px]" />
