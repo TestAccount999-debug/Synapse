@@ -2,7 +2,7 @@
 
 import { Sidebar } from "@/components/social/sidebar"
 import { useState, useEffect } from "react"
-import { Heart, MessageCircle, Repeat2, Check } from "lucide-react"
+import { Heart, MessageCircle, Repeat2, Check, UserPlus } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/navigation"
 
@@ -10,7 +10,7 @@ interface Notification {
   id: number;
   recipientId: number;
   senderId: number;
-  type: "like" | "comment" | "repost";
+  type: "like" | "comment" | "repost" | "follow";
   postId: number | null;
   isRead: boolean;
   createdAt: string;
@@ -196,6 +196,7 @@ export default function NotificationsPage() {
                                   {notif.type === 'like' && <Heart className="text-rose-500 fill-rose-500 h-3 w-3" />}
                                   {notif.type === 'comment' && <MessageCircle className="text-sky-500 fill-sky-500 h-3 w-3" />}
                                   {notif.type === 'repost' && <Repeat2 className="text-emerald-500 h-3 w-3" />}
+                                  {notif.type === 'follow' && <UserPlus className="text-blue-500 h-3 w-3" />}
                                 </div>
                               </div>
 
@@ -208,6 +209,7 @@ export default function NotificationsPage() {
                                   {notif.type === 'like' && 'liked your post.'}
                                   {notif.type === 'comment' && 'commented on your post.'}
                                   {notif.type === 'repost' && 'reposted your post.'}
+                                  {notif.type === 'follow' && 'Started following you.'}
                                 </span>
                                 <span className="text-xs text-muted-foreground ml-1.5 whitespace-nowrap">
                                   {formatTimeAgo(notif.createdAt)}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   User,
@@ -27,8 +27,17 @@ export default function ProfilePage({ username }: { username?: string }) {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   const router = useRouter();
+  const debounceRef = useRef<NodeJS.Timeout | null>(null)
 
   const isOwnProfile = !username || (currentUser && currentUser.name === username);
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     fetch("/api/user/me")
@@ -67,6 +76,8 @@ export default function ProfilePage({ username }: { username?: string }) {
       .catch((err) => console.error("Error fetching follow status:", err));
   }, [user, currentUser, isOwnProfile]);
 
+
+
   if (!user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -81,27 +92,45 @@ export default function ProfilePage({ username }: { username?: string }) {
     router.push(`/edit-profile`);
   };
 
-  const handleFollowingLogic = async() => {
-    try {
-      const data = await fetch("/api/follow-following", {
-        method: "POST",
-        headers: {
-          "Content-Type" : "application/json"
-        },
-        body: JSON.stringify({
-          followerId: currentUser.id,
-          followingId: user.id
-        })
-      });
+  const handleFollowingLogic = async () => {
+    const nextState = !isFollowing;
+    console.log("[Client] Follow button clicked. Next state will be:", nextState ? "following" : "not following");
+    setIsFollowing(nextState)
 
-      if (data.ok) {
-        if (data.status === 201) {
-          setIsFollowing(true);
-        }
-      }
-    } catch (err) {
-      console.error("Error in follow action:", err);
+    if (debounceRef.current) {
+      console.log("[Client] Clearing pending follow toggle API call timer.");
+      clearTimeout(debounceRef.current)
     }
+
+    console.log("[Client] Scheduling follow toggle API call in 800ms...");
+    debounceRef.current = setTimeout(async () => {
+      console.log("[Client] Cooldown/debounce ended. Sending follow request to server...");
+      try {
+        const response = await fetch("/api/follow-following", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            followerId: currentUser.id,
+            followingId: user.id,
+            action: nextState ? "follow" : "unfollow"
+          }),
+        })
+
+        console.log("[Client] Server response received. Status code:", response.status);
+        if (!response.ok) {
+          console.error("[Client] Server request failed. Rolling back toggle state.");
+          setIsFollowing(!nextState)
+        } else {
+          const resJson = await response.json();
+          console.log("[Client] Server response body:", resJson);
+        }
+      } catch (err) {
+        console.error("[Client] Network/unexpected error in follow action:", err);
+        setIsFollowing(!nextState)
+      }
+    }, 800)
   }
 
 
