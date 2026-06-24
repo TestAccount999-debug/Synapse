@@ -7,10 +7,7 @@ import {
   Link as LinkIcon,
   Edit2,
   Camera,
-  MoreHorizontal,
   CheckCircle,
-  UsersIcon,
-  TableColumnsSplit,
 } from "lucide-react";
 import { PostCard } from "./post-card";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -94,17 +91,13 @@ export default function ProfilePage({ username }: { username?: string }) {
 
   const handleFollowingLogic = async () => {
     const nextState = !isFollowing;
-    console.log("[Client] Follow button clicked. Next state will be:", nextState ? "following" : "not following");
     setIsFollowing(nextState)
 
     if (debounceRef.current) {
-      console.log("[Client] Clearing pending follow toggle API call timer.");
       clearTimeout(debounceRef.current)
     }
 
-    console.log("[Client] Scheduling follow toggle API call in 800ms...");
     debounceRef.current = setTimeout(async () => {
-      console.log("[Client] Cooldown/debounce ended. Sending follow request to server...");
       try {
         const response = await fetch("/api/follow-following", {
           method: "POST",
@@ -118,16 +111,12 @@ export default function ProfilePage({ username }: { username?: string }) {
           }),
         })
 
-        console.log("[Client] Server response received. Status code:", response.status);
         if (!response.ok) {
-          console.error("[Client] Server request failed. Rolling back toggle state.");
           setIsFollowing(!nextState)
         } else {
           const resJson = await response.json();
-          console.log("[Client] Server response body:", resJson);
         }
       } catch (err) {
-        console.error("[Client] Network/unexpected error in follow action:", err);
         setIsFollowing(!nextState)
       }
     }, 800)

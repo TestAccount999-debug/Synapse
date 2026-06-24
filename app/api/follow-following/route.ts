@@ -4,16 +4,13 @@ import { and, eq, gt } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-    console.log("[Server API] Received POST request on /api/follow-following");
     const body = await req.json()
-    console.log("[Server API] Request payload:", body);
 
     try {
         const numFollowerID = Number(body.followerId)
         const numFollowingID = Number(body.followingId)
         const action = body.action
 
-        console.log(`[Server API] Parsed Params -> followerId: ${numFollowerID}, followingId: ${numFollowingID}, action: ${action}`);
 
         const row = await db.query.follows.findFirst({
             where: (follows, { eq, and }) => (
@@ -53,7 +50,7 @@ export async function POST(req: Request) {
                 })
             }
 
-            const cooldownPeriodMs = 1 * 60 * 1000; // 1 minute cooldown
+            const cooldownPeriodMs = 2 * 60 * 1000;
             const cooldownThreshold = new Date(Date.now() - cooldownPeriodMs);
 
             const recentNotification = await db.query.notifications.findFirst({
@@ -66,7 +63,6 @@ export async function POST(req: Request) {
             })
 
             if (!recentNotification) {
-                console.log(`[Cooldown Inactive] Sending follow notification.`);
                 await db.insert(notifications).values({
                     recipientId: numFollowingID,
                     senderId: numFollowerID,
@@ -76,7 +72,6 @@ export async function POST(req: Request) {
                 const elapsedMs = Date.now() - recentNotification.createdAt.getTime();
                 const remainingMs = cooldownPeriodMs - elapsedMs;
                 const remainingSec = Math.max(0, Math.ceil(remainingMs / 1000));
-                console.log(`[Cooldown Active] Follow notification suppressed. Time remaining: ${remainingSec}s`);
             }
 
             return NextResponse.json({ isFollowing: true, message: "Followed" }, { status: 201 })
