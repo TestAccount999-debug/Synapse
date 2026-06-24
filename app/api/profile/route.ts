@@ -26,18 +26,18 @@ export async function GET(req: Request) {
 
   let userID = Number(decoded.userId);
 
- if (usernameParams) {
-  const targetUser = await db.query.users.findFirst({
-    where: (users, { eq }) => eq(users.name, usernameParams)
-  })
+  if (usernameParams) {
+    const targetUser = await db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.name, usernameParams)
+    })
 
-  if(!targetUser) {
-    return NextResponse.json({ error: "User not found"}, { status: 404})
-  }
+    if (!targetUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
 
-  userID = targetUser.id;
+    userID = targetUser.id;
 
- };
+  };
 
   const validTabs = [
     "posts",

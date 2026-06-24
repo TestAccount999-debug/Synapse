@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   User,
@@ -24,7 +24,20 @@ export default function ProfilePage({ username }: { username?: string }) {
   const [user, setUser] = useState<any>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
 
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+
   const router = useRouter();
+  const debounceRef = useRef<NodeJS.Timeout | null>(null)
+
+  const isOwnProfile = !username || (currentUser && currentUser.name === username);
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     fetch("/api/user/me")
@@ -50,7 +63,20 @@ export default function ProfilePage({ username }: { username?: string }) {
       .then((data) => setTabContent(data))
   }, [activeTab, username])
 
-  const isOwnProfile = !username || (currentUser && currentUser.name === username);
+  useEffect(() => {
+    if (!user || !currentUser || isOwnProfile) return;
+
+    fetch(`/api/follow-following?followerId=${currentUser.id}&followingId=${user.id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && typeof data.isFollowing === "boolean") {
+          setIsFollowing(data.isFollowing);
+        }
+      })
+      .catch((err) => console.error("Error fetching follow status:", err));
+  }, [user, currentUser, isOwnProfile]);
+
+
 
   if (!user) {
     return (
@@ -65,6 +91,48 @@ export default function ProfilePage({ username }: { username?: string }) {
   const editPageNavigate = () => {
     router.push(`/edit-profile`);
   };
+
+  const handleFollowingLogic = async () => {
+    const nextState = !isFollowing;
+    console.log("[Client] Follow button clicked. Next state will be:", nextState ? "following" : "not following");
+    setIsFollowing(nextState)
+
+    if (debounceRef.current) {
+      console.log("[Client] Clearing pending follow toggle API call timer.");
+      clearTimeout(debounceRef.current)
+    }
+
+    console.log("[Client] Scheduling follow toggle API call in 800ms...");
+    debounceRef.current = setTimeout(async () => {
+      console.log("[Client] Cooldown/debounce ended. Sending follow request to server...");
+      try {
+        const response = await fetch("/api/follow-following", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            followerId: currentUser.id,
+            followingId: user.id,
+            action: nextState ? "follow" : "unfollow"
+          }),
+        })
+
+        console.log("[Client] Server response received. Status code:", response.status);
+        if (!response.ok) {
+          console.error("[Client] Server request failed. Rolling back toggle state.");
+          setIsFollowing(!nextState)
+        } else {
+          const resJson = await response.json();
+          console.log("[Client] Server response body:", resJson);
+        }
+      } catch (err) {
+        console.error("[Client] Network/unexpected error in follow action:", err);
+        setIsFollowing(!nextState)
+      }
+    }, 800)
+  }
+
 
   return (
     <div className="min-h-screen bg-background text-foreground border-x border-border">
@@ -99,6 +167,26 @@ export default function ProfilePage({ username }: { username?: string }) {
               <User className="h-16 w-16 text-muted-foreground" />
             )}
           </div>
+
+          {
+            !isOwnProfile && (
+              <div className="flex items-center gap-3 mb-2">
+                <div
+                  className="flex items-center gap-2 rounded-full border border-primary px-5 pt-2 text-sm font-semibold text-primary transition hover:bg-primary/10"
+                >
+                  <button 
+                    className="mb-2"
+                    onClick={handleFollowingLogic}
+                  >
+                    {
+                      isFollowing ? "following" : "follow"
+                    }
+                  </button>
+                </div>
+              </div>
+            )
+          }
+
           {
             isOwnProfile && (
               <div className="flex items-center gap-3 mb-2">
