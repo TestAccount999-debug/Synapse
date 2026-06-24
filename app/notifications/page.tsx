@@ -68,12 +68,6 @@ export default function NotificationsPage() {
     }
   }
 
-  const handleNotificationClick = (postId: number | null) => {
-    if (postId) {
-      router.push(`/feed?postId=${postId}`)
-    }
-  }
-
   const formatTimeAgo = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
@@ -178,7 +172,6 @@ export default function NotificationsPage() {
                         {list.map((notif) => (
                           <div
                             key={notif.id}
-                            onClick={() => handleNotificationClick(notif.postId)}
                             className="flex items-center justify-between p-2.5 rounded-xl hover:bg-secondary/40 transition-all duration-200 cursor-pointer group"
                           >
                             <div className="flex items-center gap-3.5 min-w-0 flex-1">
@@ -202,7 +195,14 @@ export default function NotificationsPage() {
 
                               {/* Notification text details */}
                               <div className="flex-1 min-w-0 text-sm leading-snug">
-                                <span className="font-bold text-foreground hover:underline mr-1.5">
+                                <span
+                                  className="font-bold text-foreground hover:underline mr-1.5"
+                                  onClick={() => {
+                                    if (notif.sender?.name) {
+                                      router.push(`/profile/${encodeURIComponent(notif.sender?.name)}`)
+                                    }
+                                  }}
+                                >
                                   {notif.sender?.name || "Someone"}
                                 </span>
                                 <span className="text-muted-foreground">
