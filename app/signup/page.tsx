@@ -38,7 +38,7 @@ export default function SignupPage() {
 
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setIsLoading(false)
-    router.push("/feed")
+    router.push("/login")
   }
 
   return (
