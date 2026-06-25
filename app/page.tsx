@@ -90,7 +90,7 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Hero Image/Preview */}
+          {/* Hero Image/Preview  */}
           <div className="relative mx-auto mt-16 w-full max-w-none">
             <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-primary/10">
               <div className="flex items-center gap-2 border-b border-border bg-muted/50 px-4 py-3">
