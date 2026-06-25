@@ -58,212 +58,219 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">
+      <section className="relative overflow-hidden lg:h-screen lg:min-h-[750px] flex items-center pt-24 pb-16 lg:py-0">
         <div className="absolute inset-0 -z-10">
           <div className="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
           <div className="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-accent/20 blur-3xl" />
         </div>
         <div className="mx-auto w-full max-w-none px-6 sm:px-10 lg:px-16">
-          <div className="mx-auto w-full max-w-none text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm">
-              <span className="h-2 w-2 rounded-full bg-green-500" />
-              <span className="text-muted-foreground">Now in public beta</span>
-            </div>
-            <h1 className="text-pretty text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              Connect with the world like never before
-            </h1>
-            <p className="mt-6 text-pretty text-lg text-muted-foreground sm:text-xl">
-              Synapse is the next-generation social platform where ideas flourish, communities thrive, and meaningful connections happen every day.
-            </p>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button size="lg" asChild className="w-full sm:w-auto">
-                <Link href="/signup">
-                  Start for free
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
-                <Link href="#features">Learn more</Link>
-              </Button>
-            </div>
-            <div className="mt-10 flex items-center justify-center gap-8 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span>Free to use</span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+            
+            {/* Content Column (Left Side) */}
+            <div className="lg:col-span-5 flex flex-col items-start text-left">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm">
+                <span className="h-2 w-2 rounded-full bg-green-500" />
+                <span className="text-muted-foreground">Now in public beta</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span>No ads</span>
+              <h1 className="text-pretty text-4xl font-bold tracking-tight sm:text-5xl lg:text-5xl xl:text-6xl">
+                Connect with the world like never before
+              </h1>
+              <p className="mt-6 text-pretty text-base sm:text-lg text-muted-foreground">
+                Synapse is the next-generation social platform where ideas flourish, communities thrive, and meaningful connections happen every day.
+              </p>
+              <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-start gap-4 w-full sm:w-auto">
+                <Button size="lg" asChild className="w-full sm:w-auto">
+                  <Link href="/signup">
+                    Start for free
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
+                  <Link href="#features">Learn more</Link>
+                </Button>
               </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-primary" />
-                <span>Privacy first</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Hero Image/Preview  */}
-          <div className="relative mx-auto mt-16 w-full max-w-none">
-            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-primary/10">
-              <div className="flex items-center gap-2 border-b border-border bg-muted/50 px-4 py-3">
-                <div className="h-3 w-3 rounded-full bg-red-500/80" />
-                <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
-                <div className="h-3 w-3 rounded-full bg-green-500/80" />
-                <span className="ml-4 text-xs text-muted-foreground">synapse.app/feed</span>
-              </div>
-              <div className="grid grid-cols-12 gap-6 p-6">
-                {/* Sidebar Mockup */}
-                <div className="col-span-3 space-y-6 border-r border-border/60 pr-6 text-left">
-                  <div className="flex items-center gap-2.5 px-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary">
-                      <Zap className="h-4 w-4 text-primary-foreground" />
-                    </div>
-                    <span className="font-bold text-base tracking-tight">Synapse</span>
-                  </div>
-                  <nav className="space-y-1">
-                    <div className="flex items-center gap-3 rounded-xl bg-primary/10 px-3 py-2.5 text-sm font-bold text-primary">
-                      <Home className="h-4 w-4" />
-                      <span>Home</span>
-                    </div>
-                    <div className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer">
-                      <div className="flex items-center gap-3">
-                        <Bell className="h-4 w-4" />
-                        <span>Notifications</span>
-                      </div>
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                        3
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer">
-                      <User className="h-4 w-4" />
-                      <span>Profile</span>
-                    </div>
-                    <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer">
-                      <Settings className="h-4 w-4" />
-                      <span>Settings</span>
-                    </div>
-                  </nav>
-                  
-                  <Button className="w-full rounded-xl font-bold py-5 text-sm">
-                    New Post
-                  </Button>
-
-                  <div className="pt-8 border-t border-border/60 flex items-center gap-3 px-2">
-                    <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs">
-                      AP
-                    </div>
-                    <div className="flex-1 min-w-0 text-left">
-                      <div className="font-bold text-xs truncate">Abhi Patel</div>
-                      <div className="text-[11px] text-muted-foreground truncate">@abhipatel</div>
-                    </div>
-                  </div>
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-primary" />
+                  <span>Free to use</span>
                 </div>
-
-                {/* Feed Mockup */}
-                <div className="col-span-9 space-y-4 text-left">
-                  {/* Tabs Header */}
-                  <div className="border-b border-border/50 pb-2">
-                    <span className="relative font-bold text-sm text-foreground pb-2 inline-block">
-                      For you
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
-                    </span>
-                  </div>
-
-                  {/* Compose Box */}
-                  <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
-                    <div className="flex gap-3">
-                      <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs">
-                        AP
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-sm text-muted-foreground/60 py-1.5">What's on your mind?</div>
-                        <div className="mt-4 flex justify-between items-center border-t border-border/50 pt-3">
-                          <div className="flex gap-3 text-muted-foreground">
-                            <Image className="h-4 w-4 cursor-pointer hover:text-foreground transition-colors" />
-                            <span className="text-xs font-semibold select-none">Media</span>
-                          </div>
-                          <Button size="sm" className="h-8 text-xs font-bold px-4 rounded-lg">Post</Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Post 1 */}
-                  <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
-                    <div className="flex gap-3">
-                      <div className="h-10 w-10 rounded-full bg-indigo-500/10 flex items-center justify-center font-bold text-indigo-500 text-xs shrink-0">
-                        SJ
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <span className="font-bold text-sm text-foreground">Sarah Jenkins</span>
-                          <span className="text-xs text-muted-foreground">@sarahj</span>
-                          <span className="text-xs text-muted-foreground">·</span>
-                          <span className="text-xs text-muted-foreground">2h</span>
-                        </div>
-                        <p className="mt-2 text-sm text-foreground leading-normal">
-                          Just launched the new dark mode design system for Synapse! 🚀 Re-imagined the layout with a sleek glassmorphic feed, tailored color palettes, and smooth animations. What do you all think? Let me know in the comments below!
-                        </p>
-                        <div className="mt-4 flex justify-between items-center max-w-md text-muted-foreground">
-                          <div className="flex items-center gap-1.5 text-xs hover:text-rose-500 transition-colors cursor-pointer">
-                            <Heart className="h-4 w-4" />
-                            <span>142</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
-                            <MessageCircle className="h-4 w-4" />
-                            <span>24</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 text-xs hover:text-emerald-500 transition-colors cursor-pointer">
-                            <Repeat2 className="h-4 w-4" />
-                            <span>12</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
-                            <Bookmark className="h-4 w-4" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Post 2 */}
-                  <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
-                    <div className="flex gap-3">
-                      <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center font-bold text-emerald-500 text-xs shrink-0">
-                        AR
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5">
-                          <span className="font-bold text-sm text-foreground">Alex Rivera</span>
-                          <span className="text-xs text-muted-foreground">@alexr</span>
-                          <span className="text-xs text-muted-foreground">·</span>
-                          <span className="text-xs text-muted-foreground">4h</span>
-                        </div>
-                        <p className="mt-2 text-sm text-foreground leading-normal">
-                          Spent the morning optimizing our Postgres database queries. Performance improved by over 45%! Synapse is now incredibly fast. ⚡️ Next stop: scaling to 1M users.
-                        </p>
-                        <div className="mt-4 flex justify-between items-center max-w-md text-muted-foreground">
-                          <div className="flex items-center gap-1.5 text-xs hover:text-rose-500 transition-colors cursor-pointer">
-                            <Heart className="h-4 w-4 text-rose-500 fill-rose-500" />
-                            <span className="text-rose-500">87</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
-                            <MessageCircle className="h-4 w-4" />
-                            <span>8</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 text-xs hover:text-emerald-500 transition-colors cursor-pointer">
-                            <Repeat2 className="h-4 w-4 text-emerald-500" />
-                            <span className="text-emerald-500">3</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
-                            <Bookmark className="h-4 w-4 text-sky-500 fill-sky-500" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-primary" />
+                  <span>No ads</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-primary" />
+                  <span>Privacy first</span>
                 </div>
               </div>
             </div>
+
+            {/* Hero Image/Preview Column (Right Side) */}
+            <div className="lg:col-span-7 w-full">
+              <div className="relative mx-auto w-full max-w-none lg:scale-90 xl:scale-95 lg:origin-right transition-all duration-300">
+                <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-primary/10">
+                  <div className="flex items-center gap-2 border-b border-border bg-muted/50 px-4 py-3">
+                    <div className="h-3 w-3 rounded-full bg-red-500/80" />
+                    <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
+                    <div className="h-3 w-3 rounded-full bg-green-500/80" />
+                    <span className="ml-4 text-xs text-muted-foreground">synapse.app/feed</span>
+                  </div>
+                  <div className="grid grid-cols-12 gap-6 p-6">
+                    {/* Sidebar Mockup */}
+                    <div className="col-span-3 space-y-6 border-r border-border/60 pr-6 text-left">
+                      <div className="flex items-center gap-2.5 px-2">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary">
+                          <Zap className="h-4 w-4 text-primary-foreground" />
+                        </div>
+                        <span className="font-bold text-base tracking-tight">Synapse</span>
+                      </div>
+                      <nav className="space-y-1">
+                        <div className="flex items-center gap-3 rounded-xl bg-primary/10 px-3 py-2.5 text-sm font-bold text-primary">
+                          <Home className="h-4 w-4" />
+                          <span>Home</span>
+                        </div>
+                        <div className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer">
+                          <div className="flex items-center gap-3">
+                            <Bell className="h-4 w-4" />
+                            <span>Notifications</span>
+                          </div>
+                          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                            3
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer">
+                          <User className="h-4 w-4" />
+                          <span>Profile</span>
+                        </div>
+                        <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer">
+                          <Settings className="h-4 w-4" />
+                          <span>Settings</span>
+                        </div>
+                      </nav>
+                      
+                      <Button className="w-full rounded-xl font-bold py-5 text-sm">
+                        New Post
+                      </Button>
+
+                      <div className="pt-8 border-t border-border/60 flex items-center gap-3 px-2">
+                        <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs">
+                          AP
+                        </div>
+                        <div className="flex-1 min-w-0 text-left">
+                          <div className="font-bold text-xs truncate">Abhi Patel</div>
+                          <div className="text-[11px] text-muted-foreground truncate">@abhipatel</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Feed Mockup */}
+                    <div className="col-span-9 space-y-4 text-left">
+                      {/* Tabs Header */}
+                      <div className="border-b border-border/50 pb-2">
+                        <span className="relative font-bold text-sm text-foreground pb-2 inline-block">
+                          For you
+                          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
+                        </span>
+                      </div>
+
+                      {/* Compose Box */}
+                      <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
+                        <div className="flex gap-3">
+                          <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs">
+                            AP
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-sm text-muted-foreground/60 py-1.5">What's on your mind?</div>
+                            <div className="mt-4 flex justify-between items-center border-t border-border/50 pt-3">
+                              <div className="flex gap-3 text-muted-foreground">
+                                <Image className="h-4 w-4 cursor-pointer hover:text-foreground transition-colors" />
+                                <span className="text-xs font-semibold select-none">Media</span>
+                              </div>
+                              <Button size="sm" className="h-8 text-xs font-bold px-4 rounded-lg">Post</Button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Post 1 */}
+                      <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
+                        <div className="flex gap-3">
+                          <div className="h-10 w-10 rounded-full bg-indigo-500/10 flex items-center justify-center font-bold text-indigo-500 text-xs shrink-0">
+                            SJ
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-sm text-foreground">Sarah Jenkins</span>
+                              <span className="text-xs text-muted-foreground">@sarahj</span>
+                              <span className="text-xs text-muted-foreground">·</span>
+                              <span className="text-xs text-muted-foreground">2h</span>
+                            </div>
+                            <p className="mt-2 text-sm text-foreground leading-normal">
+                              Just launched the new dark mode design system for Synapse! 🚀 Re-imagined the layout with a sleek glassmorphic feed, tailored color palettes, and smooth animations. What do you all think? Let me know in the comments below!
+                            </p>
+                            <div className="mt-4 flex justify-between items-center max-w-md text-muted-foreground">
+                              <div className="flex items-center gap-1.5 text-xs hover:text-rose-500 transition-colors cursor-pointer">
+                                <Heart className="h-4 w-4" />
+                                <span>142</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
+                                <MessageCircle className="h-4 w-4" />
+                                <span>24</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs hover:text-emerald-500 transition-colors cursor-pointer">
+                                <Repeat2 className="h-4 w-4" />
+                                <span>12</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
+                                <Bookmark className="h-4 w-4" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Post 2 */}
+                      <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
+                        <div className="flex gap-3">
+                          <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center font-bold text-emerald-500 text-xs shrink-0">
+                            AR
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-sm text-foreground">Alex Rivera</span>
+                              <span className="text-xs text-muted-foreground">@alexr</span>
+                              <span className="text-xs text-muted-foreground">·</span>
+                              <span className="text-xs text-muted-foreground">4h</span>
+                            </div>
+                            <p className="mt-2 text-sm text-foreground leading-normal">
+                              Spent the morning optimizing our Postgres database queries. Performance improved by over 45%! Synapse is now incredibly fast. ⚡️ Next stop: scaling to 1M users.
+                            </p>
+                            <div className="mt-4 flex justify-between items-center max-w-md text-muted-foreground">
+                              <div className="flex items-center gap-1.5 text-xs hover:text-rose-500 transition-colors cursor-pointer">
+                                <Heart className="h-4 w-4 text-rose-500 fill-rose-500" />
+                                <span className="text-rose-500">87</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
+                                <MessageCircle className="h-4 w-4" />
+                                <span>8</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs hover:text-emerald-500 transition-colors cursor-pointer">
+                                <Repeat2 className="h-4 w-4 text-emerald-500" />
+                                <span className="text-emerald-500">3</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
+                                <Bookmark className="h-4 w-4 text-sky-500 fill-sky-500" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
