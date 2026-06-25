@@ -35,17 +35,6 @@ export default function LandingPage() {
             </div>
             <span className="text-xl font-bold">Synapse</span>
           </Link>
-          <nav className="hidden items-center gap-8 md:flex">
-            <Link href="#features" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-              Features
-            </Link>
-            <Link href="#testimonials" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-              Testimonials
-            </Link>
-            <Link href="#pricing" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-              Pricing
-            </Link>
-          </nav>
           <div className="flex items-center gap-3">
             <Button variant="ghost" asChild>
               <Link href="/login">Log in</Link>
