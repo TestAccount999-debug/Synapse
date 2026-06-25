@@ -35,6 +35,7 @@ export default function LandingPage() {
             </div>
             <span className="text-xl font-bold">Synapse</span>
           </Link>
+
           <div className="flex items-center gap-3">
             <Button variant="ghost" asChild>
               <Link href="/login">Log in</Link>
