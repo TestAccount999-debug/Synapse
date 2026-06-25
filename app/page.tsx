@@ -9,7 +9,19 @@ import {
   TrendingUp,
   ArrowRight,
   CheckCircle2,
+  Home,
+  Bell,
+  User,
+  Heart,
+  Repeat2,
+  Bookmark,
+  Share,
+  Settings,
+  Search,
+  Image,
+  MoreHorizontal,
 } from "lucide-react"
+
 
 export default function LandingPage() {
   return (
@@ -99,50 +111,154 @@ export default function LandingPage() {
                 <div className="h-3 w-3 rounded-full bg-green-500/80" />
                 <span className="ml-4 text-xs text-muted-foreground">synapse.app/feed</span>
               </div>
-              <div className="grid grid-cols-12 gap-4 p-4">
-                <div className="col-span-3 space-y-3">
-                  <div className="h-8 rounded-lg bg-muted" />
-                  <div className="h-6 w-3/4 rounded bg-muted" />
-                  <div className="h-6 w-1/2 rounded bg-muted" />
-                  <div className="h-6 w-2/3 rounded bg-muted" />
-                </div>
-                <div className="col-span-6 space-y-4">
-                  <div className="rounded-xl border border-border bg-background p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-primary/20" />
-                      <div className="space-y-1">
-                        <div className="h-4 w-24 rounded bg-muted" />
-                        <div className="h-3 w-16 rounded bg-muted" />
-                      </div>
+              <div className="grid grid-cols-12 gap-6 p-6">
+                {/* Sidebar Mockup */}
+                <div className="col-span-3 space-y-6 border-r border-border/60 pr-6 text-left">
+                  <div className="flex items-center gap-2.5 px-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary">
+                      <Zap className="h-4 w-4 text-primary-foreground" />
                     </div>
-                    <div className="mt-4 h-32 rounded-lg bg-muted" />
-                    <div className="mt-4 flex gap-4">
-                      <div className="h-6 w-12 rounded bg-muted" />
-                      <div className="h-6 w-12 rounded bg-muted" />
-                      <div className="h-6 w-12 rounded bg-muted" />
+                    <span className="font-bold text-base tracking-tight">Synapse</span>
+                  </div>
+                  <nav className="space-y-1">
+                    <div className="flex items-center gap-3 rounded-xl bg-primary/10 px-3 py-2.5 text-sm font-bold text-primary">
+                      <Home className="h-4 w-4" />
+                      <span>Home</span>
+                    </div>
+                    <div className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer">
+                      <div className="flex items-center gap-3">
+                        <Bell className="h-4 w-4" />
+                        <span>Notifications</span>
+                      </div>
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                        3
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer">
+                      <User className="h-4 w-4" />
+                      <span>Profile</span>
+                    </div>
+                    <div className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors cursor-pointer">
+                      <Settings className="h-4 w-4" />
+                      <span>Settings</span>
+                    </div>
+                  </nav>
+                  
+                  <Button className="w-full rounded-xl font-bold py-5 text-sm">
+                    New Post
+                  </Button>
+
+                  <div className="pt-8 border-t border-border/60 flex items-center gap-3 px-2">
+                    <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs">
+                      AP
+                    </div>
+                    <div className="flex-1 min-w-0 text-left">
+                      <div className="font-bold text-xs truncate">Abhi Patel</div>
+                      <div className="text-[11px] text-muted-foreground truncate">@abhipatel</div>
                     </div>
                   </div>
-                  <div className="rounded-xl border border-border bg-background p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-accent/20" />
-                      <div className="space-y-1">
-                        <div className="h-4 w-20 rounded bg-muted" />
-                        <div className="h-3 w-14 rounded bg-muted" />
+                </div>
+
+                {/* Feed Mockup */}
+                <div className="col-span-9 space-y-4 text-left">
+                  {/* Tabs Header */}
+                  <div className="border-b border-border/50 pb-2">
+                    <span className="relative font-bold text-sm text-foreground pb-2 inline-block">
+                      For you
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
+                    </span>
+                  </div>
+
+                  {/* Compose Box */}
+                  <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
+                    <div className="flex gap-3">
+                      <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-xs">
+                        AP
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm text-muted-foreground/60 py-1.5">What's on your mind?</div>
+                        <div className="mt-4 flex justify-between items-center border-t border-border/50 pt-3">
+                          <div className="flex gap-3 text-muted-foreground">
+                            <Image className="h-4 w-4 cursor-pointer hover:text-foreground transition-colors" />
+                            <span className="text-xs font-semibold select-none">Media</span>
+                          </div>
+                          <Button size="sm" className="h-8 text-xs font-bold px-4 rounded-lg">Post</Button>
+                        </div>
                       </div>
                     </div>
-                    <div className="mt-4 space-y-2">
-                      <div className="h-4 w-full rounded bg-muted" />
-                      <div className="h-4 w-3/4 rounded bg-muted" />
+                  </div>
+
+                  {/* Post 1 */}
+                  <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
+                    <div className="flex gap-3">
+                      <div className="h-10 w-10 rounded-full bg-indigo-500/10 flex items-center justify-center font-bold text-indigo-500 text-xs shrink-0">
+                        SJ
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold text-sm text-foreground">Sarah Jenkins</span>
+                          <span className="text-xs text-muted-foreground">@sarahj</span>
+                          <span className="text-xs text-muted-foreground">·</span>
+                          <span className="text-xs text-muted-foreground">2h</span>
+                        </div>
+                        <p className="mt-2 text-sm text-foreground leading-normal">
+                          Just launched the new dark mode design system for Synapse! 🚀 Re-imagined the layout with a sleek glassmorphic feed, tailored color palettes, and smooth animations. What do you all think? Let me know in the comments below!
+                        </p>
+                        <div className="mt-4 flex justify-between items-center max-w-md text-muted-foreground">
+                          <div className="flex items-center gap-1.5 text-xs hover:text-rose-500 transition-colors cursor-pointer">
+                            <Heart className="h-4 w-4" />
+                            <span>142</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
+                            <MessageCircle className="h-4 w-4" />
+                            <span>24</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-xs hover:text-emerald-500 transition-colors cursor-pointer">
+                            <Repeat2 className="h-4 w-4" />
+                            <span>12</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
+                            <Bookmark className="h-4 w-4" />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-span-3 space-y-3">
-                  <div className="h-8 rounded-lg bg-muted" />
-                  <div className="rounded-lg border border-border p-3">
-                    <div className="h-4 w-20 rounded bg-muted" />
-                    <div className="mt-2 space-y-2">
-                      <div className="h-3 w-full rounded bg-muted" />
-                      <div className="h-3 w-2/3 rounded bg-muted" />
+
+                  {/* Post 2 */}
+                  <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
+                    <div className="flex gap-3">
+                      <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center font-bold text-emerald-500 text-xs shrink-0">
+                        AR
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold text-sm text-foreground">Alex Rivera</span>
+                          <span className="text-xs text-muted-foreground">@alexr</span>
+                          <span className="text-xs text-muted-foreground">·</span>
+                          <span className="text-xs text-muted-foreground">4h</span>
+                        </div>
+                        <p className="mt-2 text-sm text-foreground leading-normal">
+                          Spent the morning optimizing our Postgres database queries. Performance improved by over 45%! Synapse is now incredibly fast. ⚡️ Next stop: scaling to 1M users.
+                        </p>
+                        <div className="mt-4 flex justify-between items-center max-w-md text-muted-foreground">
+                          <div className="flex items-center gap-1.5 text-xs hover:text-rose-500 transition-colors cursor-pointer">
+                            <Heart className="h-4 w-4 text-rose-500 fill-rose-500" />
+                            <span className="text-rose-500">87</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
+                            <MessageCircle className="h-4 w-4" />
+                            <span>8</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-xs hover:text-emerald-500 transition-colors cursor-pointer">
+                            <Repeat2 className="h-4 w-4 text-emerald-500" />
+                            <span className="text-emerald-500">3</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-xs hover:text-sky-500 transition-colors cursor-pointer">
+                            <Bookmark className="h-4 w-4 text-sky-500 fill-sky-500" />
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
