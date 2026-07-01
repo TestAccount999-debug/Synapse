@@ -42,6 +42,7 @@ export function Sidebar() {
                 if (response.ok) {
                     const data = await response.json()
                     setUser(data);
+                    localStorage.setItem("user", JSON.stringify({ id: data.id, name: data.name }));
                 } else {
                     setUser(null);
                 }

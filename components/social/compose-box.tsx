@@ -10,20 +10,26 @@ import { cn } from "@/lib/utils"
 
 export function ComposeBox() {
   const [content, setContent] = useState("")
-  const [authorID, setAuthorID] = useState<{ id: number } | null>(null);
+  const [authorID, setAuthorID] = useState<number | null>(null);
   const [showUploadContainer, setShowUploadContainer] = useState(false);
   const [attachedImageUrl, setAttachedImageUrl] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false);
   const maxLength = 280
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user")
-    if (!storedUser) return
-
-    const userID = JSON.parse(storedUser)
-
-    setAuthorID(userID.id)
-
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("/api/user/me");
+        if (response.ok) {
+          const data = await response.json();
+          setAuthorID(data.id);
+          localStorage.setItem("user", JSON.stringify({ id: data.id, name: data.name }));
+        }
+      } catch (err) {
+        console.error("Failed to fetch user in ComposeBox:", err);
+      }
+    };
+    fetchUser();
   }, [])
 
   const handleComposePost = async () => {

@@ -32,17 +32,24 @@ export default function MockPosts({ post }: MockProps) {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editContent, setEditContent] = useState("");
-    const [authorID, setAuthorID] = useState<{ id: number } | null>(null);
+    const [authorID, setAuthorID] = useState<number | null>(null);
     const maxLength = 200;
     const router = useRouter();
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user")
-        if (!storedUser) return
-
-        const userID = JSON.parse(storedUser);
-
-        setAuthorID(userID.id);
+        const fetchUser = async () => {
+            try {
+                const response = await fetch("/api/user/me");
+                if (response.ok) {
+                    const data = await response.json();
+                    setAuthorID(data.id);
+                    localStorage.setItem("user", JSON.stringify({ id: data.id, name: data.name }));
+                }
+            } catch (err) {
+                console.error("Failed to fetch user in MockPosts:", err);
+            }
+        };
+        fetchUser();
     }, [])
 
     const handleEdits = async () => {
