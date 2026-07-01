@@ -73,8 +73,6 @@ export default function ProfilePage({ username }: { username?: string }) {
       .catch((err) => console.error("Error fetching follow status:", err));
   }, [user, currentUser, isOwnProfile]);
 
-
-
   if (!user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
